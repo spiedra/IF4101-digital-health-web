@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace IF4101_proyecto3_web.Controllers
 {
-    public class HomeController : Controller
+    public class IndexController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<IndexController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public IndexController(ILogger<IndexController> logger)
         {
             _logger = logger;
         }
@@ -23,7 +23,7 @@ namespace IF4101_proyecto3_web.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult MainAdmin()
         {
             return View();
         }

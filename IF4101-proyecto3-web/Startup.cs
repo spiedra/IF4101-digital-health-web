@@ -50,7 +50,7 @@ namespace IF4101_proyecto3_web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Index}/{action=Index}/{id?}");
             });
         }
     }
