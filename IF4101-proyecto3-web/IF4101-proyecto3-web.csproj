@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -9,6 +9,13 @@
   <ItemGroup>
     <None Remove="Controllers\LogInController.cs~RF124e562.TMP" />
     <None Remove="Controllers\LogInController.cs~RF1cfb097.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Allergy\ManageAllergy.cshtml" />
+    <None Include="Views\Allergy\RegisterAllergy.cshtml" />
+    <None Include="Views\Vaccine\ManageVaccine.cshtml" />
+    <None Include="Views\Vaccine\RegisterVaccination.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

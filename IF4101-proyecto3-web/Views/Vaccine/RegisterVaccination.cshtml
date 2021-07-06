@@ -1,48 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "RegisterVaccination";
 }
+
+@model VaccinationViewModel
 
 <h2 class="text-center">Register vaccination</h2>
 
-<div class="container rounded form__login">
+<form class="container rounded form__registervaccination" method="post">
     <div class="form-group">
         <label for="patientIdCard">Patient ID card</label>
-        <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" required>
+        <input class="form-control" id="patientIdCard" asp-for="IdCard" aria-describedby="idCard">
+        <span class="field-validation-error" asp-validation-for="IdCard"></span>
     </div>
-
     <div class="form-group">
-            <select class="selectpicker form-control"
-                    data-live-search="true"
-                    title="-- Select vaccine type --">
-                <option>Espresso</option>
-                <option>Espresso</option>
-                <option>Espresso</option>
-                <option>Espresso</option>
-                <option>Espresso</option>
-            </select>
+        <select class="selectpicker form-control" asp-for="VaccinationType" data-live-search="true" title="-- Select vaccine type --">
+            <option>Espresso</option>
+            <option>Espresso</option>
+            <option>Espresso</option>
+            <option>Espresso</option>
+            <option>Espresso</option>
+        </select>
+        <span class="field-validation-error" asp-validation-for="VaccinationType"></span>
     </div>
-    
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea type="text" class="form-control" id="description" placeholder="about the vaccine"> </textarea>
+        <textarea  class="form-control" id="description" asp-for="Description" placeholder="About the vaccine"> </textarea>
+        <span class="field-validation-error" asp-validation-for="Description"></span>
     </div>
-
     <div class="form-group">
         <label for="applicationDate">Application date</label>
-        <input type="date" class="form-control" id="applicationDate" />
+        <input type="date" class="form-control" id="applicationDate" asp-for="ApplicationDate" />
+        <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
     </div>
-
     <div class="form-group">
         <label for="nextApplicationDate">Next vaccination date</label>
-        <input type="date" class="form-control" id="nextApplicationDate" />
+        <input type="date" class="form-control" id="nextApplicationDate" asp-for="NextVaccinationDate" />
+        <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
     </div>
+    <button type="submit" href="javascript:;" onclick="" class="btn btn-light">Register vaccination</button>
+</form>
 
-    <button type="submit" class="btn btn-light">Register vaccination</button>
-
-
-</div>
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
 
 
 
