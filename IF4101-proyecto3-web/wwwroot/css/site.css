@@ -81,6 +81,11 @@ body {
     background-color: #93BFBB;
 }
 
+.form__registervaccination {
+    width: 95%;
+    background-color: #aee3de;
+}
+
 .nav-link:hover {
     background-color: rgba(204, 204, 204, 0.959);
     border-radius: .4em;
