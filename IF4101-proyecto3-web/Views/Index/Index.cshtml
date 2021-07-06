@@ -10,21 +10,21 @@
     </div>
     <div class="container mt-2">
         <label class="mb-2">ID card</label>
-        <input class="form-control" placeholder="Enter your ID card" asp-for="IdCard">
+        <input id="inIdCard" class="form-control" placeholder="Enter your ID card" asp-for="IdCard">
         <span class="field-validation-error" asp-validation-for="IdCard"></span>
     </div>
     <div class="container mt-2">
         <label class="mb-2">Doctor code</label>
-        <input class="form-control" placeholder="Enter your doctor code" asp-for="DoctorCode">
+        <input id="inDoctorCode" class="form-control" placeholder="Enter your doctor code" asp-for="DoctorCode">
         <span class="field-validation-error" asp-validation-for="DoctorCode"></span>
     </div>
     <div class="container mt-2">
         <label class="mb-2">Password</label>
-        <input id="password" type="password" class="form-control" placeholder="Enter your password" asp-for="Password">
+        <input id="inPassword" type="password" class="form-control" placeholder="Enter your password" asp-for="Password">
         <span class="field-validation-error" asp-validation-for="Password"></span>
     </div>
     <div class="container d-flex justify-content-center my-3">
-        <button id="btnLogIn" type="submit" class="btn btn-primary" asp-controller="Index" asp-action="MainAdmin">Log in</button>
+        <button id="btnLogIn" type="submit" class="btn btn-primary">Log in</button>
     </div>
 </form>
 

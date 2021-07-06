@@ -11,9 +11,9 @@ function createListenerBtnLogIn() {
                 url: "/LogIn/ValidateInputLogIn",
                 type: 'POST',
                 data: {
-                    IdCard: "",
-                    DoctorCode: "",
-                    Password: ""
+                    "IdCard": $('#inIdCard').val(),
+                    "DoctorCode": $('#inDoctorCode').val(),
+                    "Password": $('#inPassword').val()
                 },
                 dataType: 'json',
                 success: function (response) {
@@ -23,3 +23,5 @@ function createListenerBtnLogIn() {
         }
     });
 }
+
+
