@@ -23,11 +23,10 @@ namespace IF4101_proyecto3_web.Controllers
                 this.ExcValidateLogIn(connectionDb, doctor);
                 if (this.ReadValidateLogIn(connectionDb))
                 {
-                    return Json("jaja");
+                    return null;
                 }
-                return Json("User not found");
             }
-            return Json("User not found");
+            return null;
         }
 
         private void ExcValidateLogIn(ConnectionDb connectionDb, DoctorViewModel doctor)

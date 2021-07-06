@@ -9,7 +9,7 @@ function createListenerBtnLogIn() {
         if (form.valid()) {
             $.ajax({
                 url: "/LogIn/ValidateInputLogIn",
-                type: 'POST',
+                type: 'post',
                 data: {
                     "IdCard": $('#inIdCard').val(),
                     "DoctorCode": $('#inDoctorCode').val(),
