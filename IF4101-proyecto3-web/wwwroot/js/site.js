@@ -11,7 +11,9 @@ function createListenerBtnLogIn() {
                 url: "/LogIn/ValidateInputLogIn",
                 type: 'POST',
                 data: {
-                    variable: "juanc"
+                    IdCard: "",
+                    DoctorCode: "",
+                    Password: ""
                 },
                 dataType: 'json',
                 success: function (response) {
