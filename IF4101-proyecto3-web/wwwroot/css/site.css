@@ -81,9 +81,13 @@ body {
     background-color: #93BFBB;
 }
 
-.nav-link:hover {
-    background-color: rgba(204, 204, 204, 0.959);
-    border-radius: .4em;
+.btn__menu:hover {
+    background-color: rgba(204, 204, 204, 0.959) !important;
+}
+
+.field-validation-error {
+    color: red;
+    font-size: smaller;
 }
 
 @media (min-width: 575.98px) and (max-width: 991.98px) {
