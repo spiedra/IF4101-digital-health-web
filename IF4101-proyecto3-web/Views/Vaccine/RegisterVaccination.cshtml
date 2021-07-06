@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h2 class="text-center">Register vaccination</h2>
+
+<div class="container rounded form__login">
+    <div class="form-group">
+        <label for="patientIdCard">Patient ID card</label>
+        <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" required>
+    </div>
+
+    <div class="form-group">
+            <select class="selectpicker form-control"
+                    data-live-search="true"
+                    title="-- Select vaccine type --">
+                <option>Espresso</option>
+                <option>Espresso</option>
+                <option>Espresso</option>
+                <option>Espresso</option>
+                <option>Espresso</option>
+            </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="text" class="form-control" id="description" placeholder="about the vaccine"> </textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="applicationDate">Application date</label>
+        <input type="date" class="form-control" id="applicationDate" />
+    </div>
+
+    <div class="form-group">
+        <label for="nextApplicationDate">Next vaccination date</label>
+        <input type="date" class="form-control" id="nextApplicationDate" />
+    </div>
+
+    <button type="submit" class="btn btn-light">Register vaccination</button>
+
+
+</div>
+
+
+
+
+
+
