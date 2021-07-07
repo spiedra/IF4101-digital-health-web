@@ -6,7 +6,7 @@ namespace IF4101_proyecto3_web.Models
     public class AppointmentViewModel
     {
         [Required]
-        public string PatientId { get; set; }
+        public string PatientCard { get; set; }
 
         [Required]
         public string HealthCenter { get; set; }

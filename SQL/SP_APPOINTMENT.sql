@@ -16,3 +16,33 @@ BEGIN
 			RETURN 1;
 		END
 END
+GO
+-----------------------------------------------------------------------
+
+CREATE PROCEDURE ADMINISTRATOR.sp_GET_SPECIALTIES_TYPES
+AS
+BEGIN
+	SELECT [SPECIALTY_TYPE] FROM [ADMINISTRATOR].[tb_SPECIALTY]
+END
+GO
+
+-----------------------------------------------------------------------
+
+CREATE PROCEDURE ADMINISTRATOR.sp_GET_MEDICALS_CENTERS_NAMES
+AS
+BEGIN
+	SELECT [SPECIALTY_TYPE] FROM [ADMINISTRATOR].[tb_SPECIALTY]
+END
+GO
+-----------------------------------------------------------------------
+
+CREATE PROCEDURE ADMINISTRATOR.sp_REGISTER_APPOINTMENT
+	@param_ID_CARD VARCHAR(32),
+	@param_MEDICAL_CENTER_NAME 
+AS
+BEGIN
+	IF()
+		BEGIN
+
+		END
+END
