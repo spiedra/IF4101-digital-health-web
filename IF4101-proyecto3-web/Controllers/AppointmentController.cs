@@ -35,6 +35,15 @@ namespace IF4101_proyecto3_web.Controllers
         }
 
         [HttpPost]
+        [Route("Appointment/ManageDelete")]
+        public JsonResult AppointmentManage(int AppointmentId)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            this.ExcDeleteAppointment(connectionDb, AppointmentId);
+            return Json("Successfully removed");
+        }
+
+        [HttpPost]
         [Route("Appointment/Schedule")]
         public IActionResult AppointmentRegister(AppointmentViewModel appointmentViewModel)
         {
@@ -119,11 +128,21 @@ namespace IF4101_proyecto3_web.Controllers
                     PatientName = connectionDb.SqlDataReader.GetString(0),
                     Date = connectionDb.SqlDataReader.GetDateTime(1),
                     HealthCenter = connectionDb.SqlDataReader.GetString(2),
-                    SpecialityType = connectionDb.SqlDataReader.GetString(3)
+                    SpecialityType = connectionDb.SqlDataReader.GetString(3),
+                    AppointmentId = connectionDb.SqlDataReader.GetInt32(4)
                 });
             }
             connectionDb.SqlConnection.Close();
             return list;
+        }
+
+        private void ExcDeleteAppointment(ConnectionDb connectionDb, int AppointmentId)
+        {
+            string paramIdCard = "@param_APPOINTMENT_ID"
+          , commandText = "ADMINISTRATOR.sp_DELETE_APPOINTMENT";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramIdCard, SqlDbType.Int, AppointmentId);
+            connectionDb.ExecuteNonQuery();
         }
     }
 }

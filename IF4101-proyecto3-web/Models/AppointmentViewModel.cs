@@ -22,5 +22,7 @@ namespace IF4101_proyecto3_web.Models
 
         [Required]
         public string Description { get; set; }
+
+        public int AppointmentId { get; set; }
     }
 }
