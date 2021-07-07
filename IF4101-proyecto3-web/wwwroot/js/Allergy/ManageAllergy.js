@@ -38,7 +38,7 @@ function SearchResult() {
                     .append($('<td>').append(element['diagnosticDate']))
                     .append($('<td>').append($('<button data-bs-toggle="modal" onclick="PutOnUpdateModal(this);" data-bs-target="#UpdateModal" class="btn btn-secondary mt-3 btn-delete-cart"><i class="fas fa-cog fa-lg"></i></button>'+
                         '<button onclick = "DeletePatientAllergy(this)" class= "btn btn-danger mt-3 btn-delete-cart" ><i class="fas fa-trash-alt fa-lg"></i></button >' +
-                        '<button data-bs-toggle="modal" data-bs-target="#MedicamentModal" class="btn btn-danger mt-3"><i class="fas fa-pills"></i></button>')))
+                        '<button onclick="PutAllergy(this)" data-bs-toggle="modal" data-bs-target="#MedicamentModal" class="btn btn-danger mt-3"><i class="fas fa-pills"></i></button>')))
                 )  
             });
             if (typeof patientName === 'undefined') {
@@ -144,11 +144,84 @@ function CloseModal() {
     $('.modal-backdrop').remove();
 }
 
+function ListPatientMedicaments() {
+
+    var DOMMedicamentList = document.getElementById('ul_medicaments');
+    DOMMedicamentList.textContent = '';
+    $.ajax({
+        url: "/Allergy/ListPatientMedicaments",
+        type: 'GET',
+        async: false,
+        data: {
+            "IdCard": IdCard,
+            "AllergyType": OldAllergy
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            response.forEach(element => {
+                AddMedicamentToList(element);
+            });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+
 function AddPatientMedicament() {
+
+    $.ajax({
+        url: "/Allergy/AddPatientMedicament",
+        type: 'post',
+        async: false,
+        data: {
+            "IdCard": IdCard,
+            "MedicineType": $("#s_MedicamentType").val(),
+            "AllergyType": OldAllergy
+        },
+        dataType: 'text',
+        success: function (response) {
+            ListPatientMedicaments();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+function RemovePatientMedicament(event) {
+    const MedicamentType = event.target.dataset.item;
+
+    $.ajax({
+        url: "/Allergy/RemovePatientMedicament",
+        type: 'DELETE',
+        async: false,
+        data: {
+            "IdCard": IdCard,
+            "MedicineType": MedicamentType,
+            "AllergyType": OldAllergy
+        },
+        dataType: 'text',
+        success: function (response) {
+            ListPatientMedicaments();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+function AddMedicamentToList(medicament) {
+
     var DOMMedicamentList = document.getElementById('ul_medicaments');
     const med = document.createElement('li');
     med.classList.add('list-group-item', 'text-left', 'mx-1');
-    med.textContent = `${$("#s_MedicamentType").val()}`;
+    med.textContent = `${medicament}`;
     med.style.marginbottom = '1em';
     //
     const btn = document.createElement('button');
@@ -157,8 +230,19 @@ function AddPatientMedicament() {
     btn.width = 2;
     btn.height = 2;
     btn.style.marginLeft = '1rem';
-    //btn.dataset.item = item.id;
-    //btn.addEventListener('click', quitar_articulo);
+    btn.dataset.item = medicament;
+    btn.addEventListener('click', RemovePatientMedicament);
     med.appendChild(btn);
     DOMMedicamentList.appendChild(med);
 }
+
+function PutAllergy(row) {
+    var title = document.getElementById('h_manageMedicaments');
+    var child = row.parentNode.parentNode;
+    OldAllergy = child.cells[0].innerText;
+    ListPatientMedicaments();
+    title.textContent = 'Manage medicaments for ' + OldAllergy+ ' allergy';
+}
+
+
+

@@ -164,5 +164,85 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.SqlConnection.Close();
             return "1";
         }
+
+        [HttpGet]
+        public JsonResult ListPatientMedicaments(string IdCard, string AllergyType)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            this.ExcListPatientMedicaments(connectionDb, IdCard,AllergyType);
+            List<string> medicaments = this.GetPatientMedicaments(connectionDb);
+            connectionDb.SqlConnection.Close();
+            return Json(medicaments);
+        }
+
+        public List<string> GetPatientMedicaments(ConnectionDb connectionDb)
+        {
+            List<string> medicaments = new List<string>();
+            while (connectionDb.SqlDataReader.Read())
+            {
+                medicaments.Add(connectionDb.SqlDataReader["MEDICINE_TYPE"].ToString());
+            }
+            return medicaments;
+        }
+
+        private void ExcListPatientMedicaments(ConnectionDb connectionDb, string IdCard, string AllergyType)
+        {
+            string paramId = "@param_ID_CARD"
+                , paramAllergyType= "@param_ALLERGY_TYPE"
+                , commandText = "PATIENT.sp_LIST_PATIENT_MEDICAMENT";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
+            connectionDb.CreateParameter(paramAllergyType, SqlDbType.VarChar, AllergyType);
+            connectionDb.ExcecuteReader();
+        }
+
+        [HttpPost]
+        public string AddPatientMedicament(string IdCard, string MedicineType, string AllergyType)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            this.excAddMedicament(connectionDb, IdCard, MedicineType, AllergyType);
+            connectionDb.SqlConnection.Close();
+            return "1";
+        }
+
+        public void excAddMedicament(ConnectionDb connectionDb, string IdCard, string MedicineType, string AllergyType)
+        {
+            string paramId = "@param_ID_CARD"
+                     , paramAllergyType = "@param_ALLERGY_TYPE"
+                      , paramMedicineType = "@param_MEDICINE_TYPE"
+                      , commandText = "PATIENT.sp_ADD_PACIENT_MEDICAMENT";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
+            connectionDb.CreateParameter(paramAllergyType, SqlDbType.VarChar, AllergyType);
+            connectionDb.CreateParameter(paramMedicineType, SqlDbType.VarChar, MedicineType);
+
+            connectionDb.CreateParameterOutput();
+            connectionDb.ExcecuteReader();
+        }
+
+        [HttpDelete]
+        public string RemovePatientMedicament(string IdCard, string MedicineType, string AllergyType)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            this.excRemoveMedicament(connectionDb, IdCard, MedicineType, AllergyType);
+            connectionDb.SqlConnection.Close();
+            return "1";
+        }
+
+        public void excRemoveMedicament(ConnectionDb connectionDb, string IdCard, string MedicineType, string AllergyType)
+        {
+            string paramId = "@param_ID_CARD"
+                     , paramAllergyType = "@param_ALLERGY_TYPE"
+                      , paramMedicineType = "@param_MEDICINE_TYPE"
+                      , commandText = "PATIENT.REMOVE_PATIENT_MEDICAMENT";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
+            connectionDb.CreateParameter(paramAllergyType, SqlDbType.VarChar, AllergyType);
+            connectionDb.CreateParameter(paramMedicineType, SqlDbType.VarChar, MedicineType);
+
+            connectionDb.CreateParameterOutput();
+            connectionDb.ExcecuteReader();
+        }
+
     }
 }
