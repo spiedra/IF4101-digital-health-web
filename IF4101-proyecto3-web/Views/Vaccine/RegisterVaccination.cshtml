@@ -25,17 +25,17 @@
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea  class="form-control" id="description" asp-for="Description" placeholder="About the vaccine"> </textarea>
+        <textarea  class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
         <span class="field-validation-error" asp-validation-for="Description"></span>
     </div>
     <div class="form-group">
         <label for="applicationDate">Application date</label>
-        <input type="date" class="form-control" id="applicationDate" asp-for="ApplicationDate" />
+        <input type="date" class="form-control" id="it_applicationDate" asp-for="ApplicationDate" />
         <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
     </div>
     <div class="form-group">
         <label for="nextApplicationDate">Next vaccination date</label>
-        <input type="date" class="form-control" id="nextApplicationDate" asp-for="NextVaccinationDate" />
+        <input type="date" class="form-control" id="it_nextApplicationDate" asp-for="NextVaccinationDate" />
         <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
     </div>
     <button type="submit" href="javascript:;" onclick="" class="btn btn-light">Register vaccination</button>

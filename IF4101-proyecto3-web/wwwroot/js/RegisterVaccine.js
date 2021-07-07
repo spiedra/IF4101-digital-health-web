@@ -13,8 +13,10 @@
                     type: 'post',
                     data: {
                         "IdCard": $('#patientIdCard').val(),
-                        "DoctorCode": $('#s_vaccinationType').val(),
-                        "Password": $('#inPassword').val()
+                        "VaccinationType": $('#s_vaccinationType').val(),
+                        "Description": $('#ta_description').val(),
+                        "ApplicationDate": $('#it_applicationDate').val(),
+                        "NextVaccinationDate": $('#it_nextApplicationDate').val()
                     },
                     dataType: 'json',
                     success: function (response) {
