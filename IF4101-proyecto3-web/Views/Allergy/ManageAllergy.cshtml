@@ -4,26 +4,26 @@
 @{
 }
 
-
+@model AllergyViewModel
+ 
 <h2 class="text-center">Manage allergy</h2>
 
-<div class="container rounded form__register-vaccination">
+<form class="container rounded form__register-vaccination" method="post">
     <div class="form-group">
         <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" placeholder="Patient ID card" required>
     </div>
-    <button type="button" class="btn btn-light">Search</button>
-</div>
+    <button type="button" id="btnSearch" class="btn btn-light">Search</button>
+</form>
 
 <div class="container">
-
+    <h3 style="display:none" id="h_patientId">Patient: </h3>
     <div class="row">
         <div class="col-md-10 scrollme">
-            <table id="example" class="table table-bordered table-responsive">
+            <table style="display: none" id="tb_allergies" class="table table-bordered table-responsive">
                 <thead class="table-dark">
-                    <tr>  
-                        <th scope="col">Patient name</th>
-                        <th scope="col">Description</th>
+                    <tr>
                         <th scope="col">Allergy</th>
+                        <th scope="col">Description</th>
                         <th scope="col">Diagnostic date</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -35,8 +35,89 @@
 
                 </tbody>
             </table>
+            <h4 id="h_notice"></h4>
         </div>
     </div>
-
-
 </div>
+
+<div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="UpdateModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Edit patient vaccination</h2>
+                <form method="POST">
+                    <div class="container">
+                        <label for="description">Allergy type</label>
+                        <select class="form-control" id="s_allergyType" asp-for="AllergyType" searchable="Search here" title="-- Select vaccine type --">
+                            <option data-subtext="Current" value="0"></option>
+                            @foreach (string item in ViewBag.Allergies)
+                            {
+                                <option> @Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+                        <span class="field-validation-error" asp-validation-for="AllergyType"></span>
+                    </div>
+                    <div class="container">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
+                        <span class="field-validation-error" asp-validation-for="Description"></span>
+                    </div>
+                    <div class="container">
+                        <label for="diagnosticDate">Diagnostic date</label>
+                        <input type="date" class="form-control" id="it_diagnosticDate" asp-for="DiagnosticDate" />
+                        <span class="field-validation-error" asp-validation-for="DiagnosticDate"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btnUpdateModal" onclick="UpdatePatientAllergy();" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="MedicamentModal" tabindex="-1" aria-labelledby="MedicamentModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Manage Medicaments</h2>
+                <form method="POST">
+                    <div class="container">
+                        <label for="description">Allergy type</label>
+                        <select class="form-control" id="s_MedicamentType" asp-for="AllergyType" searchable="Search here" title="-- Select medicament type --">
+                            <option data-subtext="Current" value="0"></option>
+                            @foreach (string item in ViewBag.Medicaments)
+                            {
+                                <option> @Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+                        <button id="btnUpdateModal" onclick="AddPatientMedicament()" type="button" class="btn btn-primary">Add medicament</button>
+                    </div>
+                    <div class="container">
+                        <label for="description">Medicaments list</label>
+                        <ul id="ul_medicaments">
+
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/Allergy/ManageAllergy.js"></script>
+}

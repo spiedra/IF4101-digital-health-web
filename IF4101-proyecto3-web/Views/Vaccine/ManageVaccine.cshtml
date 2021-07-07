@@ -5,6 +5,7 @@
 }
 
 @model VaccinationViewModel
+    
 
 <h2 class="text-center">Manage vaccine</h2>
 
@@ -15,16 +16,14 @@
     <button type="button" id="btnSearch" class="btn btn-light">Search</button>
 </form>
 
-
-
 <div class="container">
+    <h3 style="display:none" id="h_patientId">Patient: </h3>
     <div class="row">
         <div class="col-md-10 scrollme">
-            <table id="example" class="table table-bordered table-responsive">
+            <table id="tb_vaccine" style="display:none" class="table table-bordered table-responsive">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Vaccine type</th>
-                        <th scope="col">Patient name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Lattest dose date</th>
                         <th scope="col">Next dose date</th>
@@ -34,6 +33,7 @@
                 <tbody id="tdbody_manage_vaccine">
                 </tbody>
             </table>
+            <h4 id="h_notice"></h4>
         </div>
     </div>
 </div>
@@ -46,7 +46,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <h2>Edit patient vaccination</h2>
                 <form method="POST">
+                    <div class="container">
+                        <label for="description">Vaccine type</label>
+                        <select class="form-control" id="s_vaccinationType" asp-for="VaccinationType" searchable="Search here" title="-- Select vaccine type --">
+                            <option data-subtext="Current" value="0"></option>
+                            @foreach (string item in ViewBag.Vaccines)
+                            {
+                                <option> @Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+                        <span class="field-validation-error" asp-validation-for="VaccinationType"></span>
+                    </div>
                     <div class="container">
                         <label for="description">Description</label>
                         <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
@@ -74,7 +86,7 @@
 
 @section scripts
 {
-    <script src="~/js/ManageVaccine.js"></script>
+    <script src="~/js/Vaccine/ManageVaccine.js"></script>
 
 }
 
