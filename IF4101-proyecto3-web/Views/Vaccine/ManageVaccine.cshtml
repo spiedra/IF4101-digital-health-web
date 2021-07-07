@@ -4,6 +4,7 @@
 @{
 }
 
+@model VaccinationViewModel
 
 <h2 class="text-center">Manage vaccine</h2>
 
@@ -27,16 +28,46 @@
                         <th scope="col">Description</th>
                         <th scope="col">Lattest dose date</th>
                         <th scope="col">Next dose date</th>
-                        <th scope="col">Action</th> 
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody id="tdbody_manage_vaccine">
-
-                    <tr>
-                    </tr>
-
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="UpdateModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="container">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
+                        <span class="field-validation-error" asp-validation-for="Description"></span>
+                    </div>
+                    <div class="container">
+                        <label for="applicationDate">Application date</label>
+                        <input type="date" class="form-control" id="it_applicationDate" asp-for="ApplicationDate" />
+                        <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
+                    </div>
+                    <div class="container">
+                        <label for="nextApplicationDate">Next vaccination date</label>
+                        <input type="date" class="form-control" id="it_nextApplicationDate" asp-for="NextVaccinationDate" />
+                        <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btnUpdateModal" onclick="UpdatePatientVaccine();" type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -44,7 +75,7 @@
 @section scripts
 {
     <script src="~/js/ManageVaccine.js"></script>
-    
+
 }
 
 

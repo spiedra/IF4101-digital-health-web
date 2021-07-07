@@ -130,17 +130,25 @@ namespace IF4101_proyecto3_web.Controllers
             return "1";
         }
 
-        [HttpPost]
-        public string UpdatePatientVaccine()
+        [HttpPut]
+        public string UpdatePatientVaccine(string IdCard, string Description, string ApplicationDate, string NextVaccinationDate)
         {
             ConnectionDb connectionDb = new ConnectionDb();
-            string paramId = "@param_ID_CARD", paramVaccineType = "@param_VACCINATION_TYPE", commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
+            string paramId = "@param_ID_CARD"
+           , paramDescription = "@param_DESCRIPTION"
+           , paramLattestVaccineDate = "@param_LATTEST_VACCINE_DATE"
+           , paramNextVaccineDate = "@param_NEXT_VACCINE_DATE"
+           ,commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
             connectionDb.InitSqlComponents(commandText);
             connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
-            connectionDb.CreateParameter(paramVaccineType, SqlDbType.VarChar, VaccinationType);
+            connectionDb.CreateParameter(paramDescription, SqlDbType.VarChar, Description);
+            connectionDb.CreateParameter(paramLattestVaccineDate, SqlDbType.VarChar, ApplicationDate);
+            connectionDb.CreateParameter(paramNextVaccineDate, SqlDbType.VarChar, NextVaccinationDate);
             connectionDb.ExcecuteReader();
             connectionDb.SqlConnection.Close();
             return "1";
         }
+
+        
     }
 }
