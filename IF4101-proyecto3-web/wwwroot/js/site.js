@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    createListenerBtnLogIn();
+    //createListenerBtnLogIn();
 });
 
 function createListenerBtnLogIn() {
@@ -8,7 +8,7 @@ function createListenerBtnLogIn() {
 
         if (form.valid()) {
             $.ajax({
-                url: "/LogIn/ValidateInputLogIn",
+                url: "/Index/ValidateInputLogIn",
                 type: 'post',
                 data: {
                     "IdCard": $('#inIdCard').val(),
