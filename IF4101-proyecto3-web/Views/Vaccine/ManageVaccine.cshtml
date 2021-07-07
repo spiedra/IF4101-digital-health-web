@@ -7,12 +7,15 @@
 
 <h2 class="text-center">Manage vaccine</h2>
 
-<div class="container rounded form__register-vaccination">
+<form class="container rounded form__register-vaccination" method="post">
     <div class="form-group">
         <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" placeholder="Patient ID card" required>
     </div>
-    <button type="submit" class="btn btn-light">Search</button>
-</div>
+    <button type="button" id="btnSearch" class="btn btn-light">Search</button>
+</form>
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-10 scrollme">
@@ -24,7 +27,7 @@
                         <th scope="col">Description</th>
                         <th scope="col">Lattest dose date</th>
                         <th scope="col">Next dose date</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Action</th> 
                     </tr>
                 </thead>
                 <tbody id="tdbody_manage_vaccine">
@@ -37,6 +40,13 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/js/ManageVaccine.js"></script>
+    
+}
+
 
 
 

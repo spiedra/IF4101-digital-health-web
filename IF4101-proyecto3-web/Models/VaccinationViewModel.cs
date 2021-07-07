@@ -12,6 +12,8 @@ namespace IF4101_proyecto3_web.Models
         [Required]
         public int IdCard { get; set; }
 
+        public string FullName { get; set; }
+
         [Required]
         public string VaccinationType { get; set; }
 
