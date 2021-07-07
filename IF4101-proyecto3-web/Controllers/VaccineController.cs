@@ -129,5 +129,18 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.SqlConnection.Close();
             return "1";
         }
+
+        [HttpPost]
+        public string UpdatePatientVaccine()
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            string paramId = "@param_ID_CARD", paramVaccineType = "@param_VACCINATION_TYPE", commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
+            connectionDb.CreateParameter(paramVaccineType, SqlDbType.VarChar, VaccinationType);
+            connectionDb.ExcecuteReader();
+            connectionDb.SqlConnection.Close();
+            return "1";
+        }
     }
 }
