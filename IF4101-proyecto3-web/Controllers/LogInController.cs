@@ -23,8 +23,12 @@ namespace IF4101_proyecto3_web.Controllers
                 this.ExcValidateLogIn(connectionDb, doctor);
                 if (this.ReadValidateLogIn(connectionDb))
                 {
+<<<<<<< HEAD
 
                     return null;
+=======
+                    return null ;
+>>>>>>> 3044ef8d2af934733ce3e0937759f1b69ca7ed04
                 }
             }
             return null;
