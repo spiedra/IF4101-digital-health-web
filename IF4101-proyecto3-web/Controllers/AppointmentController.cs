@@ -27,6 +27,14 @@ namespace IF4101_proyecto3_web.Controllers
         }
 
         [HttpPost]
+        [Route("Appointment/Manage")]
+        public JsonResult AppointmentManage(string PaitentCardId)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            return Json(this.ExcGetAppointmetsByCard(connectionDb, PaitentCardId));
+        }
+
+        [HttpPost]
         [Route("Appointment/Schedule")]
         public IActionResult AppointmentRegister(AppointmentViewModel appointmentViewModel)
         {
@@ -89,6 +97,33 @@ namespace IF4101_proyecto3_web.Controllers
 
             connectionDb.SqlConnection.Close();
             return false;
+        }
+
+        private List<AppointmentViewModel> ExcGetAppointmetsByCard(ConnectionDb connectionDb, string PaitentCardId)
+        {
+            string paramIdCard = "@param_ID_CARD"
+          , commandText = "ADMINISTRATOR.sp_GET_APPOINTMENTS_BY_CARD";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramIdCard, SqlDbType.VarChar, PaitentCardId);
+            connectionDb.ExcecuteReader();
+            return this.ReadGetAppointmetsByCard(connectionDb);
+        }
+
+        private List<AppointmentViewModel> ReadGetAppointmetsByCard(ConnectionDb connectionDb)
+        {
+            List<AppointmentViewModel> list = new List<AppointmentViewModel>();
+            while (connectionDb.SqlDataReader.Read())
+            {
+                list.Add(new()
+                {
+                    PatientName = connectionDb.SqlDataReader.GetString(0),
+                    Date = connectionDb.SqlDataReader.GetDateTime(1),
+                    HealthCenter = connectionDb.SqlDataReader.GetString(2),
+                    SpecialityType = connectionDb.SqlDataReader.GetString(3)
+                });
+            }
+            connectionDb.SqlConnection.Close();
+            return list;
         }
     }
 }
