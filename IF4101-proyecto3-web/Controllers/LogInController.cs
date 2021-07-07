@@ -15,7 +15,7 @@ namespace IF4101_proyecto3_web.Controllers
         public IConfiguration Configuration { get; }
 
         [HttpPost]
-        public JsonResult ValidateInputLogIn(DoctorViewModel doctor)
+        public IActionResult ValidateInputLogIn(DoctorViewModel doctor)
         {
             if (ModelState.IsValid)
             {
