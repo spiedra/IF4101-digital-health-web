@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Schedule appointment";
+}
+
+<div class="container text-center mt-4 mb-3">
+    <h1 class="promo-table__title d-inline me-3">Manage appointments</h1>
+    <button id="btn__search--appointment" class="btn mb-2 d-inline btn__search" data-bs-toggle="modal" data-bs-target="#searchModal"><img src="~/search_black_24dp.svg" alt="Icon search" /></button>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 scrollme">
+            <table class="table table-bordered table-responsive">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">ID Customer</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Date time</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodySearchAppointment"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="container">
+                        <label class="mt-2 mb-2">Patient's ID</label>
+                        <input id="inPatientId" class="form-control" type="text" placeholder="Enter the patient ID" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_search" type="button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/manage_appointment.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

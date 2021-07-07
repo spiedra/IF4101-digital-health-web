@@ -103,6 +103,15 @@ body {
     font-size: smaller;
 }
 
+.btn__search {
+  background-color: rgba(204, 204, 204, 0.959) !important;
+}
+
+.btn__search:hover {
+   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+
 @media (min-width: 575.98px) and (max-width: 991.98px) {
     .form__register, form__registervaccination {
         width: 84%;

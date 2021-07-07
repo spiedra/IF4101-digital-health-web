@@ -25,6 +25,7 @@ namespace IF4101_proyecto3_web.Controllers
             return View();
         }
 
+        [Route("Index/Administration")]
         public IActionResult MainAdmin()
         {
             return View();
