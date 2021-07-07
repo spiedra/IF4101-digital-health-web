@@ -40,7 +40,7 @@ namespace IF4101_proyecto3_web.Controllers
         {
             ConnectionDb connectionDb = new ConnectionDb();
             this.ExcRegisterVaccination(connectionDb, model);
-            if (this.ReadValidateLogIn(connectionDb))
+            if (this.ReadValidateRegister(connectionDb))
             {
                 return "1"; //se ha podido registrar la vacuna
             }
@@ -68,7 +68,7 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.ExcecuteReader();
         }
 
-        private bool ReadValidateLogIn(ConnectionDb connectionDb)
+        private bool ReadValidateRegister(ConnectionDb connectionDb)
         {
             if ((int)connectionDb.ParameterReturn.Value == 1)
                 return true;
@@ -79,10 +79,16 @@ namespace IF4101_proyecto3_web.Controllers
 
         public IActionResult ManageVaccine()
         {
+            ConnectionDb connectionDb = new ConnectionDb();
+            string commandText = "ADMINISTRATOR.sp_LIST_VACCINE";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.ExcecuteReader();
+
+            ViewBag.Vaccines = this.GetVaccines(connectionDb);
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
 
         public JsonResult ListPatientVaccine(string IdCard)
         {
@@ -129,5 +135,30 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.SqlConnection.Close();
             return "1";
         }
+
+        [HttpPut]
+        public string UpdatePatientVaccine(string IdCard, string OldVaccineType, string Vaccinetype, string Description, string ApplicationDate, string NextVaccinationDate)
+        {
+            ConnectionDb connectionDb = new ConnectionDb();
+            string paramId = "@param_ID_CARD"
+           , paramOldVaccineType = "@param_OLD_VACCINATION_TYPE"
+           , paramVaccineType = "@param_VACCINATION_TYPE"
+           , paramDescription = "@param_DESCRIPTION"
+           , paramLattestVaccineDate = "@param_LATTEST_VACCINE_DATE"
+           , paramNextVaccineDate = "@param_NEXT_VACCINE_DATE"
+           ,commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
+            connectionDb.InitSqlComponents(commandText);
+            connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
+            connectionDb.CreateParameter(paramOldVaccineType, SqlDbType.VarChar, OldVaccineType);
+            connectionDb.CreateParameter(paramVaccineType, SqlDbType.VarChar, Vaccinetype);
+            connectionDb.CreateParameter(paramDescription, SqlDbType.VarChar, Description);
+            connectionDb.CreateParameter(paramLattestVaccineDate, SqlDbType.VarChar, ApplicationDate);
+            connectionDb.CreateParameter(paramNextVaccineDate, SqlDbType.VarChar, NextVaccinationDate);
+            connectionDb.ExcecuteReader();
+            connectionDb.SqlConnection.Close();
+            return "1";
+        }
+
+        
     }
 }

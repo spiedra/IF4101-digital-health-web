@@ -4,6 +4,8 @@
 @{
 }
 
+@model VaccinationViewModel
+    
 
 <h2 class="text-center">Manage vaccine</h2>
 
@@ -14,37 +16,78 @@
     <button type="button" id="btnSearch" class="btn btn-light">Search</button>
 </form>
 
-
-
 <div class="container">
+    <h3 style="display:none" id="h_patientId">Patient: </h3>
     <div class="row">
         <div class="col-md-10 scrollme">
-            <table id="example" class="table table-bordered table-responsive">
+            <table id="tb_vaccine" style="display:none" class="table table-bordered table-responsive">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Vaccine type</th>
-                        <th scope="col">Patient name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Lattest dose date</th>
                         <th scope="col">Next dose date</th>
-                        <th scope="col">Action</th> 
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody id="tdbody_manage_vaccine">
-
-                    <tr>
-                    </tr>
-
                 </tbody>
             </table>
+            <h4 id="h_notice"></h4>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="UpdateModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2>Edit patient vaccination</h2>
+                <form method="POST">
+                    <div class="container">
+                        <label for="description">Vaccine type</label>
+                        <select class="form-control" id="s_vaccinationType" asp-for="VaccinationType" searchable="Search here" title="-- Select vaccine type --">
+                            <option data-subtext="Current" value="0"></option>
+                            @foreach (string item in ViewBag.Vaccines)
+                            {
+                                <option> @Html.DisplayFor(modelItem => item)</option>
+                            }
+                        </select>
+                        <span class="field-validation-error" asp-validation-for="VaccinationType"></span>
+                    </div>
+                    <div class="container">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
+                        <span class="field-validation-error" asp-validation-for="Description"></span>
+                    </div>
+                    <div class="container">
+                        <label for="applicationDate">Application date</label>
+                        <input type="date" class="form-control" id="it_applicationDate" asp-for="ApplicationDate" />
+                        <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
+                    </div>
+                    <div class="container">
+                        <label for="nextApplicationDate">Next vaccination date</label>
+                        <input type="date" class="form-control" id="it_nextApplicationDate" asp-for="NextVaccinationDate" />
+                        <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btnUpdateModal" onclick="UpdatePatientVaccine();" type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
 
 @section scripts
 {
-    <script src="~/js/ManageVaccine.js"></script>
-    
+    <script src="~/js/Vaccine/ManageVaccine.js"></script>
+
 }
 
 
