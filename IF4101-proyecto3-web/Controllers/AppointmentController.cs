@@ -20,6 +20,12 @@ namespace IF4101_proyecto3_web.Controllers
             return View();
         }
 
+        [Route("Appointment/Manage")]
+        public IActionResult AppointmentManage()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Route("Appointment/Schedule")]
         public IActionResult AppointmentRegister(AppointmentViewModel appointmentViewModel)
