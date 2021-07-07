@@ -3,17 +3,17 @@
     ViewData["Title"] = "Schedule appointment";
 }
 
-<form class="container mt-5 mb-4 py-3 bg-light form__register needs-validation" method="POST" asp-controller="Appointment" asp-action="Schedule" novalidate>
+<form class="container mt-5 mb-3 py-3 bg-light form__register needs-validation" method="POST" asp-controller="Appointment" asp-action="Schedule" novalidate>
     <div class="form-group">
         <h1 class="mt-3 text-center">Schedule Appointment</h1>
     </div>
-    <div class="form-group">
-        <label class="mb-2">Patient's ID</label>
+    <div class="form-group mb-3">
+        <label class="mb-1">Patient's ID</label>
         <input class="form-control" placeholder="Enter the patient's ID" asp-for="PatientCard">
         <span class="field-validation-error" asp-validation-for="PatientCard"></span>
     </div>
-    <div class="form-group">
-        <label class="mb-2">Health centers</label>
+    <div class="form-group mb-3">
+        <label class="mb-1">Health centers</label>
         <select class="form-select form-control" asp-for="HealthCenter">
             <option selected>Choose a option</option>
             @foreach (string item in ViewBag.HealthCenters)
@@ -23,13 +23,13 @@
         </select>
         <span class="field-validation-error" asp-validation-for="SpecialityType"></span>
     </div>
-    <div class="form-group">
-        <label class="mb-2">Appointment date</label>
+    <div class="form-group mb-3">
+        <label class="mb-1">Appointment date</label>
         <input class="form-control" asp-for="Date">
         <span class="field-validation-error" asp-validation-for="Date"></span>
     </div>
-    <div class="form-group">
-        <label class="mb-2">Speciality type</label>
+    <div class="form-group  mb-3">
+        <label class="mb-1">Speciality type</label>
         <select class="form-select form-control" asp-for="SpecialityType">
             <option selected>Choose a option</option>
             @foreach (string item in ViewBag.SpecialityTypes)

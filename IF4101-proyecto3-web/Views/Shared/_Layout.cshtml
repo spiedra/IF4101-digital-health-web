@@ -13,13 +13,13 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Index" asp-action="MainAdmin"><img class="img-responsive" width="65" height="65" src="~/insurance.svg" alt="Digital Health logo" /></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                <div id="toggleMobileMenu" class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Appointments
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Vaccines
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn dropdown-toggle mx-1 btn__menu" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Allergies
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

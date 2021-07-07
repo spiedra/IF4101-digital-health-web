@@ -60,3 +60,14 @@ BEGIN
 			RETURN -1
 		END
 END
+
+-----------------------------------------------------------------------
+
+CREATE PROCEDURE ADMINISTRATOR.sp_GET_APPOINTMENTS_BY_CARD
+	@param_ID_CARD VARCHAR(32)
+AS
+BEGIN
+		DECLARE @local_PATIENT_ID INT = (SELECT [PATIENT_ID] FROM [PATIENT].[tb_PATIENT] WHERE [ID_CARD] = @param_ID_CARD)
+
+	SELECT 
+END
