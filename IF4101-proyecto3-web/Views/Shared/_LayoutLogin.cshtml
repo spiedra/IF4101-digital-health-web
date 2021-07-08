@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="vh-100">
-    <main role="main" class="container-fluid h-100 d-flex align-items-center justify-content-center">
+    <main id="pageMain" role="main" class="container-fluid h-100 d-flex align-items-center justify-content-center">
         @RenderBody()
     </main>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

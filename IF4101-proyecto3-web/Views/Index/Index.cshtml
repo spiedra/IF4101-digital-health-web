@@ -31,4 +31,11 @@
 @section scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+        if ('@ViewBag.ShowModalResponse' === 'True') {
+           createModalResponse("User not found");
+        }
+       });
+    </script>
 }

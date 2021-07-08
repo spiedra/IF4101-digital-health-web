@@ -22,6 +22,7 @@ namespace IF4101_proyecto3_web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.ShowModalResponse = false;
             return View();
         }
 
@@ -41,9 +42,11 @@ namespace IF4101_proyecto3_web.Controllers
                 this.ExcValidateLogIn(connectionDb, doctor);
                 if (this.ReadValidateLogIn(connectionDb))
                 {
+                    ViewBag.ShowModalResponse = false;
                     return View("MainAdmin");
                 }
             }
+            ViewBag.ShowModalResponse = true;
             return View("Index");
         }
 

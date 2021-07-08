@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IF4101_proyecto3_web.Models.AppointmentViewModel
+@{
     ViewData["Title"] = "Schedule appointment";
 }
 
@@ -15,6 +16,7 @@
                         <th scope="col">Patient name</th>
                         <th scope="col">Specilty type</th>
                         <th scope="col">Medical center</th>
+                        <th scope="col">Diagnostic</th>
                         <th scope="col">Date</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -24,13 +26,11 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="POST">
@@ -47,9 +47,61 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="addDescriptionModal" tabindex="-1" aria-labelledby="addDescriptionModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Diagnostic description</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="container">
+                        <textarea id="inDescription" class="form-control" type="text" placeholder="" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_confirm" type="button" class="btn btn-primary">Confirm diagnostic</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateAppointment" tabindex="-1" aria-labelledby="updateAppointment" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update appointement</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="form-group mb-3">
+                        <label class="mb-1">Health centers</label>
+                        <select id="selectHealthCenters" class="form-select form-control" asp-for="HealthCenter"></select>
+                        <span class="field-validation-error" asp-validation-for="SpecialityType"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="mb-1">Appointment date</label>
+                        <input id="inDate" class="form-control" asp-for="Date">
+                        <span class="field-validation-error" asp-validation-for="Date"></span>
+                    </div>
+                    <div class="form-group  mb-3">
+                        <label class="mb-1">Speciality type</label>
+                        <select id="selectSpecialityTypes" class="form-select form-control" asp-for="SpecialityType"></select>
+                        <span class="field-validation-error" asp-validation-for="SpecialityType"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCloseModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_confirmUpdate" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="~/js/manage_appointment.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }
