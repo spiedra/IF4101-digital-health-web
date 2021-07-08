@@ -40,14 +40,9 @@ namespace IF4101_proyecto3_web.Controllers
         {
             ConnectionDb connectionDb = new ConnectionDb();
             this.ExcRegisterVaccination(connectionDb, model);
-            if (this.ReadValidateRegister(connectionDb))
-            {
-                return "1"; //se ha podido registrar la vacuna
-            }
-            else
-            {
-                return "-1"; //el paciente no existe
-            }
+            var resp=this.ReadValidateRegister(connectionDb);
+            connectionDb.SqlConnection.Close();
+            return resp.ToString();
         }
         private void ExcRegisterVaccination(ConnectionDb connectionDb, VaccinationViewModel model)
         {
@@ -68,13 +63,10 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.ExcecuteReader();
         }
 
-        private bool ReadValidateRegister(ConnectionDb connectionDb)
+        private int ReadValidateRegister(ConnectionDb connectionDb)
         {
-            if ((int)connectionDb.ParameterReturn.Value == 1)
-                return true;
-
-            connectionDb.SqlConnection.Close();
-            return false;
+            return (int)connectionDb.ParameterReturn.Value;
+               
         }
 
         public IActionResult ManageVaccine()

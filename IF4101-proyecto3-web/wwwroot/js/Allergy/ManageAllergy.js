@@ -15,8 +15,6 @@ function GoSearch() {
 
 function SearchResult() {
     var tbodyTable = $('#tdbody_manage_allergy');
-    var table = document.getElementById('tb_allergies');
-    table.style.display = 'none';
     document.getElementById('h_patientId').style.display = 'none';
     $.ajax({
         url: "/Allergy/ListPatientAllergies",
@@ -44,7 +42,6 @@ function SearchResult() {
             if (typeof patientName === 'undefined') {
                 document.getElementById('h_notice').textContent = "Allergies was not found for patient: " + IdCard;
             } else {
-                table.style.display = 'inline-block';
                 document.getElementById('h_patientId').style.display = 'block';
                 document.getElementById('h_patientId').textContent = "Patient: " + patientName;
                 document.getElementById('h_notice').textContent = "";
