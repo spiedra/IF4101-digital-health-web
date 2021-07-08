@@ -9,6 +9,9 @@ namespace IF4101_proyecto3_web.Models
         public string PatientCard { get; set; }
 
         [Required]
+        public string PatientName { get; set; }
+
+        [Required]
         public string HealthCenter { get; set; }
 
         [Required]
@@ -19,5 +22,7 @@ namespace IF4101_proyecto3_web.Models
 
         [Required]
         public string Description { get; set; }
+
+        public int AppointmentId { get; set; }
     }
 }
