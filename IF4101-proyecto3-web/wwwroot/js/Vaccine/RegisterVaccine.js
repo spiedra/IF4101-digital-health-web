@@ -20,6 +20,8 @@ function RegisterVaccine() {
                     },
                     dataType: 'text',
                     success: function (response) {
+                        document.getElementById("patientIdCard").value = 0;
+                        document.getElementById("ta_description").value = "";
                         div = document.querySelector(".message");
                         if (response == "1") {
                             var html_text = "<div class='alert alert-success' role='alert'>" + "patient vaccine successful added!" + "</div>";

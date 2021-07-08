@@ -9,17 +9,17 @@
 <h2 class="text-center">Manage allergy</h2>
 
 <form class="container rounded form__register-vaccination" method="post">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" placeholder="Patient ID card" required>
     </div>
     <button type="button" id="btnSearch" class="btn btn-light">Search</button>
 </form>
 
+<h3 style="display:none" id="h_patientId">Patient: </h3>
 <div class="container">
-    <h3 style="display:none" id="h_patientId">Patient: </h3>
     <div class="row">
-        <div class="col-md-10 scrollme">
-            <table style="display: none" id="tb_allergies" class="table table-bordered table-responsive">
+        <div class="col-md-12 scrollme">
+            <table id="tb_allergies" class="table table-bordered table-responsive">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Allergy</th>

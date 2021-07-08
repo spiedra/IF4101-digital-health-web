@@ -19,6 +19,7 @@ function RegisterAllergy() {
                 },
                 dataType: 'text',
                 success: function (response) {
+                    document.getElementById("formVaccination").reset();
                     div = document.querySelector(".message");
                     if (response == "1") {
                         var html_text = "<div class='alert alert-success' role='alert'>" + "patient allergy successful added!" + "</div>";
