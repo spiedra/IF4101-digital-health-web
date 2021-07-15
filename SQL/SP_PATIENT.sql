@@ -1,0 +1,67 @@
+USE IF4101_proyecto3_B95212_B97452;
+GO
+
+CREATE PROCEDURE PATIENT.sp_REGISTER_PATIENT
+	@param_ID_CARD        VARCHAR(32),
+	@param_NAME           VARCHAR(32),
+	@param_LAST_NAME      VARCHAR(100),
+	@param_PASSWORD       VARCHAR(200),
+	@param_AGE		      INT,
+	@param_BLOOD_TYPE     VARCHAR(32),
+	@param_CIVIL_STATUS   VARCHAR(32),
+	@param_ADDRESS        VARCHAR(32),
+	@param_PHONE_NUMBER_1 VARCHAR(32),
+	@param_PHONE_NUMBER_2 VARCHAR(32) NULL
+AS
+BEGIN
+	DECLARE @local_BLOOD_ID INT = (SELECT BLOOD_ID FROM [ADMINISTRATOR].[tb_BLOOD] WHERE BLOOD_TYPE = @param_BLOOD_TYPE)
+
+	IF NOT EXISTS (SELECT ID_CARD FROM [PATIENT].[tb_PATIENT] WHERE ID_CARD = @param_ID_CARD)
+		BEGIN
+			INSERT INTO [PATIENT].[tb_PHONE_NUMBERS] ([PHONE_NUMBER_1], [PHONE_NUMBER_2])VALUES(@param_PHONE_NUMBER_1, @param_PHONE_NUMBER_2)
+			DECLARE @local_PHONE_NUMBERS_ID INT = SCOPE_IDENTITY()
+
+			INSERT INTO [PATIENT].[tb_PATIENT]
+           ([ID_CARD]
+           ,[NAME]
+           ,[LAST_NAME]
+           ,[PASSWORD]
+           ,[AGE]
+           ,[BLOOD_ID]
+           ,[CIVIL_STATUS]
+           ,[ADDRESS]
+		   ,[PHONE_NUMBERS_ID])
+			VALUES(@param_ID_CARD,
+			@param_NAME, @param_LAST_NAME, @param_PASSWORD, @param_AGE, @local_BLOOD_ID, @param_CIVIL_STATUS, @param_ADDRESS, @local_PHONE_NUMBERS_ID)
+			RETURN 1;
+		END
+	ELSE
+		BEGIN
+			RETURN 0;
+		END 
+END
+GO
+-----------------------------------------------------------------------
+
+ALTER PROCEDURE PATIENT.sp_GET_PATIENT_PERSONAL_INFORMATION
+	@param_ID_CARD      VARCHAR(32)
+AS
+BEGIN
+	SELECT 
+		 [ID_CARD],
+		 [NAME],
+		 [LAST_NAME],
+		 [AGE],
+		 [BLOOD_ID],
+		 [CIVIL_STATUS],
+		 [ADDRESS],
+		 PH.PHONE_NUMBER
+	FROM [PATIENT].[tb_PATIENT] P
+		JOIN [PATIENT].[tb_PHONE_PATIENT] PP
+			ON P.PATIENT_ID = PP.PATIENT_ID
+			JOIN [PATIENT].[tb_PHONE] PH
+				ON PH.PHONE_ID = PP.PHONE_ID
+	WHERE P.ID_CARD = @param_ID_CARD AND P.IS_DELETED = 0 AND PH.IS_DELETED = 0
+END
+GO
+-----------------------------------------------------------------------
