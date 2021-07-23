@@ -1,5 +1,5 @@
 ﻿var IdCard = ""
-var OldAllergy=""
+var OldAllergy = ""
 $(document).ready(function () {
     IdCard = "";
     GoSearch();
@@ -25,26 +25,29 @@ function SearchResult() {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
-            var patientName;
-            tbodyTable.empty();
-            response.forEach(element => {
-                patientName = element['fullName'];
-                tbodyTable.append($('<tr id="' + element['allergyType'] + '">')
-                    .append($('<td scope="row" class="fw-bold">"').append(element['allergyType']))
-                    .append($('<td>').append(element['description']))
-                    .append($('<td>').append(element['diagnosticDate']))
-                    .append($('<td>').append($('<button data-bs-toggle="modal" onclick="PutOnUpdateModal(this);" data-bs-target="#UpdateModal" class="btn btn-secondary mt-3 btn-delete-cart"><i class="fas fa-cog fa-lg"></i></button>'+
-                        '<button onclick = "DeletePatientAllergy(this)" class= "btn btn-danger mt-3 btn-delete-cart" ><i class="fas fa-trash-alt fa-lg"></i></button >' +
-                        '<button onclick="PutAllergy(this)" data-bs-toggle="modal" data-bs-target="#MedicamentModal" class="btn btn-danger mt-3"><i class="fas fa-pills"></i></button>')))
-                )  
-            });
-            if (typeof patientName === 'undefined') {
-                document.getElementById('h_notice').textContent = "Allergies was not found for patient: " + IdCard;
+            if (response != null) {
+                var patientName;
+                tbodyTable.empty();
+                response.forEach(element => {
+                    patientName = element['fullName'];
+                    tbodyTable.append($('<tr id="' + element['allergyType'] + '">')
+                        .append($('<td scope="row" class="fw-bold">"').append(element['allergyType']))
+                        .append($('<td>').append(element['description']))
+                        .append($('<td>').append(element['diagnosticDate']))
+                        .append($('<td>').append($('<button data-bs-toggle="modal" onclick="PutOnUpdateModal(this);" data-bs-target="#UpdateModal" class="btn btn-secondary mt-3 me-1"><i class="fas fa-cog fa-lg"></i></button>' +
+                            '<button onclick = "DeletePatientAllergy(this)" class= "btn btn-danger mt-3 me-1" ><i class="fas fa-trash-alt fa-lg"></i></button >' +
+                            '<button onclick="PutAllergy(this)" data-bs-toggle="modal" data-bs-target="#MedicamentModal" class="btn btn-success mt-3 me-1"><i class="fas fa-pills"></i></button>')))
+                    )
+                });
+                if (typeof patientName === 'undefined') {
+                    createModalResponse("Allergies was not found for patient: " + IdCard);
+                } else {
+                    document.getElementById('h_patientId').style.display = 'block';
+                    document.getElementById('h_patientId').textContent = "Patient: " + patientName;
+                    document.getElementById('h_notice').textContent = "";
+                }
             } else {
-                document.getElementById('h_patientId').style.display = 'block';
-                document.getElementById('h_patientId').textContent = "Patient: " + patientName;
-                document.getElementById('h_notice').textContent = "";
+                createModalResponse("Please fill in the blanks");
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -67,7 +70,7 @@ function DeletePatientAllergy(row) {
         },
         dataType: 'text',
         success: function (response) {
-            alert("borrado");
+            createModalResponse("Successfully eliminated");
             SearchResult();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -125,9 +128,9 @@ function UpdatePatientAllergy() {
         },
         dataType: 'text',
         success: function (response) {
-            alert(response);
+            $("#UpdateModal").modal('hide');
+            createModalResponse(response);
             SearchResult();
-            CloseModal();
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -155,7 +158,6 @@ function ListPatientMedicaments() {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
             response.forEach(element => {
                 AddMedicamentToList(element);
             });
@@ -217,7 +219,7 @@ function AddMedicamentToList(medicament) {
 
     var DOMMedicamentList = document.getElementById('ul_medicaments');
     const med = document.createElement('li');
-    med.classList.add('list-group-item', 'text-left', 'mx-1');
+    med.classList.add('list-group-item', 'text-left', 'me-1');
     med.textContent = `${medicament}`;
     med.style.marginbottom = '1em';
     //
@@ -238,7 +240,7 @@ function PutAllergy(row) {
     var child = row.parentNode.parentNode;
     OldAllergy = child.cells[0].innerText;
     ListPatientMedicaments();
-    title.textContent = 'Manage medicaments for ' + OldAllergy+ ' allergy';
+    title.textContent = 'Manage medicaments for ' + OldAllergy + ' allergy';
 }
 
 

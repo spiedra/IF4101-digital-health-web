@@ -13,10 +13,11 @@ namespace IF4101_proyecto3_web.Controllers
     {
 
         [Route("Appointment/Schedule")]
-        public IActionResult AppointmentRegister()
+        public IActionResult AppointmentRegister(string message)
         {
             ConnectionDb connectionDb = new();
             this.GetListsToCbx(connectionDb);
+            ViewBag.response = message;
             return View();
         }
 
@@ -30,8 +31,12 @@ namespace IF4101_proyecto3_web.Controllers
         [Route("Appointment/Manage")]
         public JsonResult AppointmentManage(string PaitentCardId)
         {
-            ConnectionDb connectionDb = new ConnectionDb();
-            return Json(this.ExcGetAppointmetsByCard(connectionDb, PaitentCardId));
+            if (!string.IsNullOrEmpty(PaitentCardId))
+            {
+                ConnectionDb connectionDb = new();
+                return Json(ExcGetAppointmetsByCard(connectionDb, PaitentCardId));
+            }
+            return Json(null);
         }
 
         [HttpPost]
@@ -61,18 +66,16 @@ namespace IF4101_proyecto3_web.Controllers
         }
 
         [HttpPost]
-        [Route("Appointment/Schedule")]
-        public IActionResult AppointmentRegister(AppointmentViewModel appointmentViewModel)
+        [Route("Appointment/Schedule_")]
+        public IActionResult AppointmentRegisterParam(AppointmentViewModel appointmentViewModel)
         {
-            ConnectionDb connectionDb = new ConnectionDb();
+            ConnectionDb connectionDb = new();
             this.GetListsToCbx(connectionDb);
             if (ExcRegisterAppointment(connectionDb, appointmentViewModel))
             {
-                ViewBag.response = "Successful registration";
-                return View();
+                return RedirectToAction(nameof(AppointmentRegister), new { message = "Successful registration" });
             }
-            ViewBag.response = "Appointment is already scheduled";
-            return View();
+            return RedirectToAction(nameof(AppointmentRegister), new { message = "It could not be completed. Please try again" });
         }
 
         [HttpGet]

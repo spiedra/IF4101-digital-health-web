@@ -19,15 +19,13 @@ namespace IF4101_proyecto3_web.Data
 
         public void InitSqlComponents(string commandText)
         {
-            //string connectionString = Configuration["ConnectionStrings:DB_Connection"];
             this.SqlConnection = new SqlConnection("Data Source=163.178.107.10;Initial Catalog=IF4101_proyecto3_B95212_B97452;Persist Security Info=True;User ID=laboratorios;Password=KmZpo.2796;Pooling=False");
-            //this.SqlConnection = new SqlConnection(Configuration.GetConnectionString("DB_Connection"));
             this.SqlCommand = new SqlCommand(commandText, this.SqlConnection);
         }
 
         public void CreateParameter(string parameterName, SqlDbType dbType, object value)
         {
-            SqlParameter sqlParameter = new SqlParameter(parameterName, dbType);
+            SqlParameter sqlParameter = new(parameterName, dbType);
             sqlParameter.Value = value;
             this.SqlCommand.Parameters.Add(sqlParameter);
         }

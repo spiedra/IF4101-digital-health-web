@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IF4101_proyecto3_web.Controllers
 {
@@ -40,7 +39,7 @@ namespace IF4101_proyecto3_web.Controllers
         {
             ConnectionDb connectionDb = new ConnectionDb();
             this.ExcRegisterVaccination(connectionDb, model);
-            var resp=this.ReadValidateRegister(connectionDb);
+            var resp = this.ReadValidateRegister(connectionDb);
             connectionDb.SqlConnection.Close();
             return resp.ToString();
         }
@@ -66,7 +65,7 @@ namespace IF4101_proyecto3_web.Controllers
         private int ReadValidateRegister(ConnectionDb connectionDb)
         {
             return (int)connectionDb.ParameterReturn.Value;
-               
+
         }
 
         public IActionResult ManageVaccine()
@@ -84,14 +83,18 @@ namespace IF4101_proyecto3_web.Controllers
 
         public JsonResult ListPatientVaccine(string IdCard)
         {
-            ConnectionDb connectionDb = new ConnectionDb();
-            this.ExcListVaccinePatient(connectionDb, IdCard);
-            List<VaccinationViewModel> vaccines = this.GetPatientVaccination(connectionDb);
-            connectionDb.SqlConnection.Close();
-            return Json(vaccines);
+            if (!string.IsNullOrEmpty(IdCard))
+            {
+                ConnectionDb connectionDb = new ConnectionDb();
+                ExcListVaccinePatient(connectionDb, IdCard);
+                List<VaccinationViewModel> vaccines = this.GetPatientVaccination(connectionDb);
+                connectionDb.SqlConnection.Close();
+                return Json(vaccines);
+            }
+            return Json(null);
         }
 
-        private void ExcListVaccinePatient(ConnectionDb connectionDb, string IdCard)
+        private static void ExcListVaccinePatient(ConnectionDb connectionDb, string IdCard)
         {
             string paramId = "@param_ID_CARD", commandText = "ADMINISTRATOR.sp_LIST_PATIENT_VACCINE";
             connectionDb.InitSqlComponents(commandText);
@@ -104,7 +107,7 @@ namespace IF4101_proyecto3_web.Controllers
             List<VaccinationViewModel> vaccines = new List<VaccinationViewModel>();
             while (connectionDb.SqlDataReader.Read())
             {
-                VaccinationViewModel model = new VaccinationViewModel();
+                VaccinationViewModel model = new();
                 model.VaccinationType = connectionDb.SqlDataReader["VACCINE_TYPE"].ToString();
                 model.FullName = connectionDb.SqlDataReader["full_name"].ToString();
                 model.Description = connectionDb.SqlDataReader["DESCRIPTION"].ToString();
@@ -116,16 +119,16 @@ namespace IF4101_proyecto3_web.Controllers
         }
 
         [HttpDelete]
-        public string DeletePatientVaccine(string IdCard,string VaccinationType)
+        public string DeletePatientVaccine(string IdCard, string VaccinationType)
         {
             ConnectionDb connectionDb = new ConnectionDb();
-            string paramId = "@param_ID_CARD", paramVaccineType= "@param_VACCINATION_TYPE", commandText = "Patient.sp_DELETE_PATIENT_VACCINE";
+            string paramId = "@param_ID_CARD", paramVaccineType = "@param_VACCINATION_TYPE", commandText = "Patient.sp_DELETE_PATIENT_VACCINE";
             connectionDb.InitSqlComponents(commandText);
             connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
             connectionDb.CreateParameter(paramVaccineType, SqlDbType.VarChar, VaccinationType);
             connectionDb.ExcecuteReader();
             connectionDb.SqlConnection.Close();
-            return "1";
+            return "Successfully eliminated";
         }
 
         [HttpPut]
@@ -138,7 +141,7 @@ namespace IF4101_proyecto3_web.Controllers
            , paramDescription = "@param_DESCRIPTION"
            , paramLattestVaccineDate = "@param_LATTEST_VACCINE_DATE"
            , paramNextVaccineDate = "@param_NEXT_VACCINE_DATE"
-           ,commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
+           , commandText = "PATIENT.sp_UPDATE_PATIENT_VACCINE";
             connectionDb.InitSqlComponents(commandText);
             connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);
             connectionDb.CreateParameter(paramOldVaccineType, SqlDbType.VarChar, OldVaccineType);
@@ -148,9 +151,9 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.CreateParameter(paramNextVaccineDate, SqlDbType.VarChar, NextVaccinationDate);
             connectionDb.ExcecuteReader();
             connectionDb.SqlConnection.Close();
-            return "1";
+            return "Successfully updated";
         }
 
-        
+
     }
 }
