@@ -129,7 +129,11 @@ function UpdatePatientAllergy() {
         dataType: 'text',
         success: function (response) {
             $("#UpdateModal").modal('hide');
-            createModalResponse(response);
+            if (response == "1") {
+                createModalResponse("Patient allergy information successful changed!");
+            } else if (response == "-1") {
+                createModalResponse("Error. Patient allergy type already exists");
+            }
             SearchResult();
         },
         error: function (xhr, ajaxOptions, thrownError) {

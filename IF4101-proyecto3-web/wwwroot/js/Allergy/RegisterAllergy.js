@@ -21,7 +21,7 @@ function RegisterAllergy() {
                     if (response == "1") {
                         createModalResponse("Patient allergy successful added!");
                     } else if (response == "-1") {
-                        createModalResponse("Patient was not found");
+                        createModalResponse("Patient allergy was not found");
                     } else if (response == "0") {
                         createModalResponse("Patient allergy already registered");
                     }

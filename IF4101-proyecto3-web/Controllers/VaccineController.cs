@@ -149,11 +149,11 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.CreateParameter(paramDescription, SqlDbType.VarChar, Description);
             connectionDb.CreateParameter(paramLattestVaccineDate, SqlDbType.VarChar, ApplicationDate);
             connectionDb.CreateParameter(paramNextVaccineDate, SqlDbType.VarChar, NextVaccinationDate);
+            connectionDb.CreateParameterOutput();
             connectionDb.ExcecuteReader();
+            var resp = this.ReadValidateRegister(connectionDb);
             connectionDb.SqlConnection.Close();
-            return "Successfully updated";
+            return resp.ToString();
         }
-
-
     }
 }

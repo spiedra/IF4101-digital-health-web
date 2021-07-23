@@ -146,7 +146,11 @@ function UpdatePatientVaccine() {
         dataType: 'text',
         success: function (response) {
             $("#UpdateModal").modal('hide');
-            createModalResponse("Successfully updated");
+            if (response == "1") {
+                createModalResponse("Patient vaccine information successful changed!");
+            } else if (response == "-1") {
+                createModalResponse("Error. Patient vaccine type already exists");
+            }
             SearchResult();
         },
         error: function (xhr, ajaxOptions, thrownError) {

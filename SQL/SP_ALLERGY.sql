@@ -47,7 +47,7 @@ DECLARE @local_patient_id INT=
 		  WHERE MAP.ALLERGY_ID=@local_allergy_id AND MAP.PATIENT_ID=@local_patient_id
 END
 
-CREATE PROCEDURE PATIENT.sp_REGISTER_PATIENT_ALLERGY
+ALTER PROCEDURE PATIENT.sp_REGISTER_PATIENT_ALLERGY
 @param_ID_CARD VARCHAR(32),
 @param_ALLERGY_TYPE VARCHAR(32),
 @param_DESCRIPTION VARCHAR(200),
@@ -87,7 +87,8 @@ BEGIN
 					DESCRIPTION=@param_DESCRIPTION, 
 						DIAGNOSTIC_DATE=@param_DIAGNOSTIC_DATE
 							WHERE ALLERGY_ID=@local_allergy_id 
-									AND PATIENT_ID=@local_patient_id
+									AND PATIENT_ID=@local_patient_id;
+									RETURN 1;
 	    END
 	ELSE
 		BEGIN
@@ -129,7 +130,7 @@ BEGIN
 END
 
 
-CREATE PROCEDURE PATIENT.sp_UPDATE_PATIENT_ALLERGY
+ALTER PROCEDURE PATIENT.sp_UPDATE_PATIENT_ALLERGY
 @param_ID_CARD VARCHAR(32),
 @param_OLD_ALLERGY_TYPE VARCHAR(32),
 @param_ALLERGY_TYPE VARCHAR(32),
@@ -141,28 +142,32 @@ BEGIN
 	DECLARE @local_id_patient INT=(SELECT PATIENT_ID FROM PATIENT.tb_PATIENT WHERE ID_CARD=@param_ID_CARD);
 	DECLARE @local_id_allergy INT=(SELECT ALLERGY_ID FROM ADMINISTRATOR.tb_ALLERGY WHERE ALLERGY_TYPE=@param_ALLERGY_TYPE);
 
-	IF EXISTS (SELECT* FROM PATIENT.tb_ALLERGY_PATIENT WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_id_allergy)
-		BEGIN
-		-----------si existe entonces solo lo vuelve deleted=0
-			UPDATE PATIENT.tb_ALLERGY_PATIENT 
+	IF EXISTS (SELECT* FROM PATIENT.tb_ALLERGY_PATIENT WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_old_id_allergy)
+	BEGIN
+	 IF EXISTS (SELECT* FROM PATIENT.tb_ALLERGY_PATIENT WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_id_allergy AND @local_id_allergy!=@local_old_id_allergy)
+	 BEGIN
+	  RETURN -1;
+	 END
+	 ELSE IF(@local_old_id_allergy=@local_id_allergy)
+	 BEGIN
+	 UPDATE PATIENT.tb_ALLERGY_PATIENT 
 			SET IS_DELETED=0,
 			DESCRIPTION=@param_DESCRIPTION,
 			DIAGNOSTIC_DATE=@param_DIAGNOSTIC_DATE
-			WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_id_allergy;
-			---------------------------el otro viejo lo elimina
-			UPDATE PATIENT.tb_ALLERGY_PATIENT 
-			SET IS_DELETED=1
 			WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_old_id_allergy;
-		END
-	ELSE
-		BEGIN
-			UPDATE PATIENT.tb_ALLERGY_PATIENT 
-			SET ALLERGY_ID=@local_id_allergy,
+			RETURN 1;
+	 END
+	 ELSE IF(@local_old_id_allergy!=@local_id_allergy)
+	 BEGIN
+	 UPDATE PATIENT.tb_ALLERGY_PATIENT 
+			SET IS_DELETED=0,
+			ALLERGY_ID=@local_id_allergy,
 			DESCRIPTION=@param_DESCRIPTION,
 			DIAGNOSTIC_DATE=@param_DIAGNOSTIC_DATE
-			WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_old_id_allergy;
-	END
-	
+			WHERE PATIENT_ID=@local_id_patient AND ALLERGY_ID=@local_id_allergy;
+			RETURN 1;
+	 END
+	 END
 	
 END
 
