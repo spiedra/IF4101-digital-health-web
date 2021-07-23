@@ -22,7 +22,7 @@ function RegisterVaccine() {
                     if (response == "1") {
                         createModalResponse("Patient vaccine successful added!");
                     } else if (response == "-1") {
-                        createModalResponse("Patient was not found");
+                        createModalResponse("Patient vaccine was not found");
                     } else if (response == "0") {
                         createModalResponse("Patient vaccination already exists");
                     }

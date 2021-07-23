@@ -163,9 +163,11 @@ namespace IF4101_proyecto3_web.Controllers
             connectionDb.CreateParameter(paramAllergyType, SqlDbType.VarChar, AllergyType);
             connectionDb.CreateParameter(paramDescription, SqlDbType.VarChar, Description);
             connectionDb.CreateParameter(paramDiagnosticDate, SqlDbType.VarChar, DiagnosticDate);
+            connectionDb.CreateParameterOutput();
             connectionDb.ExcecuteReader();
+            int resp = ReadValidateRegister(connectionDb);
             connectionDb.SqlConnection.Close();
-            return "1";
+            return resp.ToString();
         }
 
         [HttpGet]

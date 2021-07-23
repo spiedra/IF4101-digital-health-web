@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE ADMINISTRATOR.sp_REGISTER_VACCINATION
+ALTER PROCEDURE ADMINISTRATOR.sp_REGISTER_VACCINATION
 @param_ID_CARD VARCHAR(32),
 @param_VACCINE_TYPE VARCHAR(32),
 @param_DESCRIPTION VARCHAR(200) NULL,
@@ -37,13 +37,11 @@ BEGIN
 					LATTEST_VACCINE_DATE=@param_LATTEST_VACCINE_DATE,
 					NEXT_VACCINE_DATE=@param_NEXT_VACCINE_DATE
 					WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_vaccine_id;
+					RETURN 1;
 				END
 
 			ELSE
 				BEGIN
-
-				
-
 					INSERT INTO PATIENT.tb_VACCINE_PATIENT 
 						(PATIENT_ID,
 						VACCINE_ID,
@@ -58,9 +56,8 @@ BEGIN
 						@param_LATTEST_VACCINE_DATE,
 						@param_NEXT_VACCINE_DATE);
 
-						
+					RETURN 1;	
 				END
-		RETURN 1;
 	   END
 END
 
@@ -108,7 +105,7 @@ BEGIN
 END
 
 
-CREATE PROCEDURE PATIENT.sp_UPDATE_PATIENT_VACCINE
+ALTER PROCEDURE PATIENT.sp_UPDATE_PATIENT_VACCINE
 @param_ID_CARD VARCHAR(32),
 @param_OLD_VACCINATION_TYPE VARCHAR(32),
 @param_VACCINATION_TYPE VARCHAR(32),
@@ -121,28 +118,30 @@ BEGIN
 	DECLARE @local_patient_id INT=(SELECT PATIENT_ID FROM PATIENT.tb_PATIENT WHERE ID_CARD=@param_ID_CARD);
 	DECLARE @local_vaccine_id INT=(SELECT VACCINE_ID FROM ADMINISTRATOR.tb_VACCINE WHERE VACCINE_TYPE=@param_VACCINATION_TYPE);
 
-	IF EXISTS(SELECT* FROM PATIENT.tb_VACCINE_PATIENT WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_vaccine_id)
-		BEGIN
-		---------devuelve el nuevo a 0
-			UPDATE PATIENT.tb_VACCINE_PATIENT
+	IF EXISTS(SELECT* FROM PATIENT.tb_VACCINE_PATIENT WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_old_vaccine_id)
+	  IF EXISTS (SELECT* FROM PATIENT.tb_VACCINE_PATIENT WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_vaccine_id AND @local_old_vaccine_id!=@local_vaccine_id) --cuando ya tiene una vacuna con ese nombre
+	  BEGIN
+	  RETURN -1; --no porque ya tiene una con ese nombre
+	  END
+	  ELSE IF(@local_old_vaccine_id=@local_vaccine_id)
+	  BEGIN
+	  UPDATE PATIENT.tb_VACCINE_PATIENT
 			SET IS_DELETED=0,
 			DESCRIPTION=@param_DESCRIPTION,
 			LATTEST_VACCINE_DATE=@param_LATTEST_VACCINE_DATE, 
 			NEXT_VACCINE_DATE=@param_NEXT_VACCINE_DATE
-			WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_vaccine_id;
-			---------------borra el otro
-			UPDATE PATIENT.tb_VACCINE_PATIENT
-			SET IS_DELETED=1
 			WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_old_vaccine_id;
-
-		END
-	ELSE
+			RETURN 1;
+	  END
+	  ELSE IF (@local_old_vaccine_id!=@local_vaccine_id)
 		BEGIN
 			UPDATE PATIENT.tb_VACCINE_PATIENT
-			SET VACCINE_ID=@local_vaccine_id,
+			SET IS_DELETED=0,
+			VACCINE_ID=@local_vaccine_id,
 			DESCRIPTION=@param_DESCRIPTION,
 			LATTEST_VACCINE_DATE=@param_LATTEST_VACCINE_DATE, 
 			NEXT_VACCINE_DATE=@param_NEXT_VACCINE_DATE
 			WHERE PATIENT_ID=@local_patient_id AND VACCINE_ID=@local_old_vaccine_id;
+			RETURN 1;
 		END
 END
