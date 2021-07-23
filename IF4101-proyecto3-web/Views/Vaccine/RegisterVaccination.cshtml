@@ -5,62 +5,48 @@
 
 @model VaccinationViewModel
 
-
-
-<h2 class="text-center">Vaccination register</h2>
-
-<form class="container mt-5 mb-3 py-3 bg-light form__register needs-validation" id="formVaccination" method="post" novalidate>
-    <div class="form-group">
-        <label for="patientIdCard">Patient ID card</label>
-        <input class="form-control" id="patientIdCard" asp-for="IdCard" aria-describedby="idCard">
+<h1>Vaccination register</h1>
+<hr />
+<form class="container mt-4 mb-3 py-3 bg-light form__register needs-validation" id="formVaccination" method="post" novalidate>
+    <div class="form-group mb-3">
+        <label for="patientIdCard" class="mb-1">Patient ID card</label>
+        <input class="form-control" id="patientIdCard" asp-for="IdCard" placeholder="Enter the patien's ID" aria-describedby="idCard">
         <span class="field-validation-error" asp-validation-for="IdCard"></span>
     </div>
     <div class="form-group mb-3">
-        <label for="vaccinationT">Select vaccine type</label>
+        <label for="vaccinationT" class="mb-1">Select vaccine type</label>
         <select class="form-control" id="s_vaccinationType" asp-for="VaccinationType" searchable="Search here" title="-- Select vaccine type --">
-
+            <option selected disabled>Choose a option</option>
             @foreach (string item in ViewBag.Vaccines)
             {
-                <option> @Html.DisplayFor(modelItem => item)</option>
+                <option class="select_opcion"> @Html.DisplayFor(modelItem => item)</option>
             }
         </select>
         <span class="field-validation-error" asp-validation-for="VaccinationType"></span>
     </div>
     <div class="form-group mb-3">
-        <label for="description">Description</label>
+        <label for="description" class="mb-1">Description</label>
         <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
         <span class="field-validation-error" asp-validation-for="Description"></span>
     </div>
     <div class="form-group mb-3">
-        <label for="applicationDate">Application date</label>
+        <label for="applicationDate" class="mb-1">Application date</label>
         <input type="date" class="form-control" id="it_applicationDate" asp-for="ApplicationDate" />
         <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
     </div>
     <div class="form-group mb-3">
-        <label for="nextApplicationDate">Next vaccination date</label>
+        <label for="nextApplicationDate" class="mb-1">Next vaccination date</label>
         <input type="date" class="form-control" id="it_nextApplicationDate" asp-for="NextVaccinationDate" />
         <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
     </div>
     <div class="container d-flex justify-content-center my-3">
-        <button type="button" id="btnRegisterVaccination" class="btn btn-primary">Register</button>
+        <button type="button" id="btnRegisterVaccination" class="btn btn-dark">Register</button>
     </div>
-    
+
 </form>
-
-<div class="message">
-
-</div>
-
-
 
 @section scripts
 {
     <script src="~/js/Vaccine/RegisterVaccine.js"></script>
-   
     <partial name="_ValidationScriptsPartial" />
 }
-
-
-
-
-

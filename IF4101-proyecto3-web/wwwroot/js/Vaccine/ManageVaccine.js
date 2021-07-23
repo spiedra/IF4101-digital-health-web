@@ -1,5 +1,5 @@
-﻿var IdCard=""
-var OldVaccine=""
+﻿var IdCard = ""
+var OldVaccine = ""
 $(document).ready(function () {
     IdCard = "";
     GoSearch();
@@ -16,7 +16,6 @@ function SearchResult() {
     var tbodyTable = $('#tdbody_manage_vaccine');
     var table = document.getElementById('tb_vaccine');
     document.getElementById('h_patientId').style.display = 'none';
-    table.style.display = 'none';
     $.ajax({
         url: "/Vaccine/ListPatientVaccine",
         type: 'GET',
@@ -26,27 +25,28 @@ function SearchResult() {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
-            tbodyTable.empty();
-            var patientName;
-            response.forEach(element => {
-                patientName = element['fullName'];
-                tbodyTable.append($('<tr id="' + element['vaccinationType'] + '">')
-                    .append($('<td scope="row" class="fw-bold">"').append(element['vaccinationType']))
-                    .append($('<td>').append(element['description']))
-                    .append($('<td>').append(element['applicationDate']))
-                    .append($('<td>').append(element['nextVaccinationDate']))
-                    .append($('<td>').append($('<button data-bs-toggle="modal" onclick="PutOnUpdateModal(this);" data-bs-target="#UpdateModal" class="btn btn-secondary mt-3 btn-delete-cart"><i class="fas fa-cog fa-lg"></i></button> <button onclick="DeletePatientVaccine(this)" id="btnDeleteVac" class=" btn btn-danger mt-3 btn-delete-cart"><i class="fas fa-trash-alt fa-lg"></i></button>'))) //<a> <i class="fas fa-trash-alt fa-lg"></i> </a >'
-                )
-            });
-            if (typeof patientName === 'undefined') {
-                document.getElementById('h_notice').textContent = "Vaccination was not found for patient: " + IdCard;
-
+            if (response != null) {
+                tbodyTable.empty();
+                var patientName;
+                response.forEach(element => {
+                    patientName = element['fullName'];
+                    tbodyTable.append($('<tr id="' + element['vaccinationType'] + '">')
+                        .append($('<td scope="row" class="fw-bold">"').append(element['vaccinationType']))
+                        .append($('<td>').append(element['description']))
+                        .append($('<td>').append(element['applicationDate']))
+                        .append($('<td>').append(element['nextVaccinationDate']))
+                        .append($('<td>').append($('<button data-bs-toggle="modal" onclick="PutOnUpdateModal(this);" data-bs-target="#UpdateModal" class="btn btn-secondary mt-3 btn-delete-cart"><i class="fas fa-cog fa-lg"></i></button> <button onclick="DeletePatientVaccine(this)" id="btnDeleteVac" class=" btn btn-danger mt-3 btn-delete-cart"><i class="fas fa-trash-alt fa-lg"></i></button>'))) //<a> <i class="fas fa-trash-alt fa-lg"></i> </a >'
+                    )
+                });
+                if (typeof patientName === 'undefined') {
+                    createModalResponse("Vaccination was not found for patient: " + IdCard);
+                } else {
+                    document.getElementById('h_patientId').style.display = 'block';
+                    document.getElementById('h_patientId').textContent = "Patient: " + patientName;
+                    document.getElementById('h_notice').textContent = "";
+                }
             } else {
-                table.style.display = 'inline-block';
-                document.getElementById('h_patientId').style.display = 'block';
-                document.getElementById('h_patientId').textContent = "Patient: " + patientName;
-                document.getElementById('h_notice').textContent = "";
+                createModalResponse("Please fill in the blanks");
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -80,7 +80,7 @@ function DeletePatientVaccine(row) {
 
 function PutOnUpdateModal(row) {
     //on select
-  
+
     //values
     var child = row.parentNode.parentNode;
     var description = child.cells[1].innerText;
@@ -111,11 +111,11 @@ function PutOnUpdateModal(row) {
 
     var from2 = nextVaccinedate.split("/");
     var date2 = "";
-   
+
     var day2 = from2[0];
     var month2 = from2[1];
     var year2 = from2[2].split(" ");
-   
+
     if (parseInt(day2) < 10 && parseInt(month2) < 10) {
         date2 = `${year2[0]}-0${month2}-0${day2}`;
     } else if (parseInt(day2) < 10) {
@@ -131,7 +131,6 @@ function PutOnUpdateModal(row) {
 }
 
 function UpdatePatientVaccine() {
-    alert(OldVaccine)
     $.ajax({
         url: "/Vaccine/UpdatePatientVaccine",
         type: 'PUT',
@@ -146,8 +145,9 @@ function UpdatePatientVaccine() {
         },
         dataType: 'text',
         success: function (response) {
+            $("#UpdateModal").modal('hide');
+            createModalResponse("Successfully updated");
             SearchResult();
-            CloseModal();
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);

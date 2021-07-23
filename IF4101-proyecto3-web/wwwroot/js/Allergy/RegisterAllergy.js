@@ -2,9 +2,7 @@
     RegisterAllergy();
 });
 
-
 function RegisterAllergy() {
-
     $("#btnRegisterAllergy").click(function () {
         var form = $(this).closest("form");
         if (form.valid()) {
@@ -19,17 +17,13 @@ function RegisterAllergy() {
                 },
                 dataType: 'text',
                 success: function (response) {
-                    document.getElementById("formVaccination").reset();
-                    div = document.querySelector(".message");
+                    //document.getElementById("formVaccination").reset();
                     if (response == "1") {
-                        var html_text = "<div class='alert alert-success' role='alert'>" + "patient allergy successful added!" + "</div>";
-                        div.innerHTML = html_text;
+                        createModalResponse("Patient allergy successful added!");
                     } else if (response == "-1") {
-                        var html_text = "<div class='alert alert-success' role='alert'>" + "Patient was not found" + "</div>";
-                        div.innerHTML = html_text;
+                        createModalResponse("Patient was not found");
                     } else if (response == "0") {
-                        var html_text = "<div class='alert alert-success' role='alert'>" + "Patient allergy already registered" + "</div>";
-                        div.innerHTML = html_text;
+                        createModalResponse("Patient allergy already registered");
                     }
                 }
             });

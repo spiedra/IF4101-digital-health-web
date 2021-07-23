@@ -5,22 +5,22 @@
 }
 
 @model VaccinationViewModel
-    
 
-<h2 class="text-center">Manage vaccine</h2>
 
-<form class="container rounded form__register-vaccination" method="post">
+<h1>Manage vaccine</h1>
+<hr />
+<form class="rounded form__register-vaccination" method="post">
     <div class="form-group">
         <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" placeholder="Patient ID card" required>
     </div>
-    <button type="button" id="btnSearch" class="btn btn-light">Search</button>
+    <button type="button" id="btnSearch" class="btn btn-dark mt-2">Search</button>
 </form>
 
-<div class="container">
-    <h3 style="display:none" id="h_patientId">Patient: </h3>
-    <div class="row">
-        <div class="col-md-10 scrollme">
-            <table id="tb_vaccine" style="display:none" class="table table-bordered table-responsive">
+<div>
+    <h4 style="display:none" class="mt-2" id="h_patientId">Patient: </h4>
+    <div class="row table-responsive mt-2">
+        <div class="col-12">
+            <table id="tb_vaccine" class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Vaccine type</th>
@@ -30,8 +30,7 @@
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody id="tdbody_manage_vaccine">
-                </tbody>
+                <tbody id="tdbody_manage_vaccine"></tbody>
             </table>
             <h4 id="h_notice"></h4>
         </div>
@@ -42,14 +41,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Edit patient vaccination</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h2>Edit patient vaccination</h2>
                 <form method="POST">
-                    <div class="container">
-                        <label for="description">Vaccine type</label>
+                    <div class="container mb-2">
+                        <label for="description" class="mb-1">Vaccine type</label>
                         <select class="form-control" id="s_vaccinationType" asp-for="VaccinationType" searchable="Search here" title="-- Select vaccine type --">
                             <option data-subtext="Current" value="0"></option>
                             @foreach (string item in ViewBag.Vaccines)
@@ -59,18 +57,18 @@
                         </select>
                         <span class="field-validation-error" asp-validation-for="VaccinationType"></span>
                     </div>
-                    <div class="container">
-                        <label for="description">Description</label>
+                    <div class="container mb-2">
+                        <label for="description" class="mb-1">Description</label>
                         <textarea class="form-control" id="ta_description" asp-for="Description" placeholder="About the vaccine"> </textarea>
                         <span class="field-validation-error" asp-validation-for="Description"></span>
                     </div>
-                    <div class="container">
-                        <label for="applicationDate">Application date</label>
+                    <div class="container mb-2">
+                        <label for="applicationDate" class="mb-1">Application date</label>
                         <input type="date" class="form-control" id="it_applicationDate" asp-for="ApplicationDate" />
                         <span class="field-validation-error" asp-validation-for="ApplicationDate"></span>
                     </div>
-                    <div class="container">
-                        <label for="nextApplicationDate">Next vaccination date</label>
+                    <div class="container mb-2">
+                        <label for="nextApplicationDate" class="mb-1">Next vaccination date</label>
                         <input type="date" class="form-control" id="it_nextApplicationDate" asp-for="NextVaccinationDate" />
                         <span class="field-validation-error" asp-validation-for="NextVaccinationDate"></span>
                     </div>
@@ -87,7 +85,6 @@
 @section scripts
 {
     <script src="~/js/Vaccine/ManageVaccine.js"></script>
-
 }
 
 

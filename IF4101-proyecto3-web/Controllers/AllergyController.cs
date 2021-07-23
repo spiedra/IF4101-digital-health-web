@@ -13,14 +13,13 @@ namespace IF4101_proyecto3_web.Controllers
     {
         public IActionResult RegisterAllergy()
         {
-            
             ViewBag.Allergies = this.RequestAllergies();
             return View();
         }
 
         public List<string> RequestAllergies()
         {
-            ConnectionDb connectionDb = new ConnectionDb();
+            ConnectionDb connectionDb = new();
             string commandText = "ADMINISTRATOR.sp_LIST_ALLERGY";
             connectionDb.InitSqlComponents(commandText);
             connectionDb.ExcecuteReader();
@@ -29,7 +28,7 @@ namespace IF4101_proyecto3_web.Controllers
         }
         public List<string> GetAllergies(ConnectionDb connectionDb)
         {
-            List<string> allergies = new List<string>();
+            List<string> allergies = new();
             while (connectionDb.SqlDataReader.Read())
             {
                 allergies.Add(connectionDb.SqlDataReader["ALLERGY_TYPE"].ToString());
@@ -53,7 +52,7 @@ namespace IF4101_proyecto3_web.Controllers
             List<string> medicine = new List<string>();
             while (connectionDb.SqlDataReader.Read())
             {
-               medicine.Add(connectionDb.SqlDataReader["MEDICINE_TYPE"].ToString());
+                medicine.Add(connectionDb.SqlDataReader["MEDICINE_TYPE"].ToString());
             }
             connectionDb.SqlConnection.Close();
             return medicine;
@@ -69,7 +68,7 @@ namespace IF4101_proyecto3_web.Controllers
         [HttpPost]
         public string RegisterAllergy(AllergyViewModel model)
         {
-            ConnectionDb connectionDb = new ConnectionDb();
+            ConnectionDb connectionDb = new();
             this.excRegisterAllergy(connectionDb, model);
             var resp = ReadValidateRegister(connectionDb);
             connectionDb.SqlConnection.Close();
@@ -101,11 +100,15 @@ namespace IF4101_proyecto3_web.Controllers
         [HttpGet]
         public JsonResult ListPatientAllergies(string IdCard)
         {
-            ConnectionDb connectionDb = new ConnectionDb();
-            this.ExcListPatientAllergies(connectionDb, IdCard);
-            List<AllergyViewModel> allergies = this.GetPatientAllergies(connectionDb);
-            connectionDb.SqlConnection.Close();
-            return Json(allergies);
+            if (!string.IsNullOrEmpty(IdCard))
+            {
+                ConnectionDb connectionDb = new();
+                this.ExcListPatientAllergies(connectionDb, IdCard);
+                List<AllergyViewModel> allergies = this.GetPatientAllergies(connectionDb);
+                connectionDb.SqlConnection.Close();
+                return Json(allergies);
+            }
+            return Json(null);
         }
 
         private void ExcListPatientAllergies(ConnectionDb connectionDb, string IdCard)
@@ -125,7 +128,7 @@ namespace IF4101_proyecto3_web.Controllers
                 model.FullName = connectionDb.SqlDataReader["full_name"].ToString();
                 model.Description = connectionDb.SqlDataReader["DESCRIPTION"].ToString();
                 model.DiagnosticDate = connectionDb.SqlDataReader["DIAGNOSTIC_DATE"].ToString();
-             
+
                 allergies.Add(model);
             }
             return allergies;
@@ -145,7 +148,7 @@ namespace IF4101_proyecto3_web.Controllers
         }
 
         [HttpPut]
-        public string UpdatePatientAllergy(string IdCard, string OldAllergyType, string AllergyType, string Description, string DiagnosticDate )
+        public string UpdatePatientAllergy(string IdCard, string OldAllergyType, string AllergyType, string Description, string DiagnosticDate)
         {
             ConnectionDb connectionDb = new ConnectionDb();
             string paramId = "@param_ID_CARD"
@@ -169,7 +172,7 @@ namespace IF4101_proyecto3_web.Controllers
         public JsonResult ListPatientMedicaments(string IdCard, string AllergyType)
         {
             ConnectionDb connectionDb = new ConnectionDb();
-            this.ExcListPatientMedicaments(connectionDb, IdCard,AllergyType);
+            this.ExcListPatientMedicaments(connectionDb, IdCard, AllergyType);
             List<string> medicaments = this.GetPatientMedicaments(connectionDb);
             connectionDb.SqlConnection.Close();
             return Json(medicaments);
@@ -188,7 +191,7 @@ namespace IF4101_proyecto3_web.Controllers
         private void ExcListPatientMedicaments(ConnectionDb connectionDb, string IdCard, string AllergyType)
         {
             string paramId = "@param_ID_CARD"
-                , paramAllergyType= "@param_ALLERGY_TYPE"
+                , paramAllergyType = "@param_ALLERGY_TYPE"
                 , commandText = "PATIENT.sp_LIST_PATIENT_MEDICAMENT";
             connectionDb.InitSqlComponents(commandText);
             connectionDb.CreateParameter(paramId, SqlDbType.VarChar, IdCard);

@@ -9,7 +9,6 @@ $(document).ready(function () {
 function createListenerBtnSearch() {
     $("#btn_search").click(function () {
         var tbodyTable = $('#tbodySearchAppointment')
-
         $.ajax({
             url: '/Appointment/Manage',
             type: 'post',
@@ -18,20 +17,26 @@ function createListenerBtnSearch() {
             },
             dataType: 'json',
             success: function (response) {
-                tbodyTable.empty();
-                response.forEach(element => {
-                    tbodyTable.append($('<tr id= "' + element['appointmentId'] + '">')
-                        .append($('<td scope="row">"').append(element['patientName']))
-                        .append($('<td id="specialityType' + element['appointmentId'] + '" class="specilType">').append(element['specialityType']))
-                        .append($('<td id="healthCenter' + element['appointmentId'] + '" class="healthCenterName">').append(element['healthCenter']))
-                        .append($('<td id="description' + element['appointmentId'] + '">').append(element['description']))
-                        .append($('<td id="date' + element['appointmentId'] + '" class="appointmentDate">').append(moment(new Date(element['date'])).format('MMMM Do YYYY, h:mm:ss a')))
-                        .append($('<td>').append(
-                            $('<button class="btn btn-secondary mb-2 me-1 btn-update" data-bs-toggle="modal" data-bs-target="#updateAppointment"><i class="fas fa-cog fa-lg"></i></i></button>'
-                                + '<button class= "btn btn-primary mb-2 btn-add me-1" data-bs-target="#addDescriptionModal"><i class="fas fa-comment-medical fa-lg"></i></button >'
-                                + '<button class= "btn btn-danger mb-2 btn-delete"> <i class="fas fa-trash-alt fa-lg"></i></button >')))
-                    )
-                });
+                console.log(response)
+                if (response != null) {
+                    tbodyTable.empty();
+                    response.forEach(element => {
+                        tbodyTable.append($('<tr id= "' + element['appointmentId'] + '">')
+                            .append($('<td scope="row">"').append(element['patientName']))
+                            .append($('<td id="specialityType' + element['appointmentId'] + '" class="specilType">').append(element['specialityType']))
+                            .append($('<td id="healthCenter' + element['appointmentId'] + '" class="healthCenterName">').append(element['healthCenter']))
+                            .append($('<td id="description' + element['appointmentId'] + '">').append(element['description']))
+                            .append($('<td id="date' + element['appointmentId'] + '" class="appointmentDate">').append(moment(new Date(element['date'])).format('MMMM Do YYYY, h:mm:ss a')))
+                            .append($('<td>').append(
+                                $('<button class="btn btn-secondary mb-2 me-1 btn-update" data-bs-toggle="modal" data-bs-target="#updateAppointment"><i class="fas fa-cog fa-lg"></i></i></button>'
+                                    + '<button class= "btn btn-primary mb-2 btn-add me-1" data-bs-target="#addDescriptionModal"><i class="fas fa-comment-medical fa-lg"></i></button >'
+                                    + '<button class= "btn btn-danger mb-2 btn-delete"> <i class="fas fa-trash-alt fa-lg"></i></button >')))
+                        )
+                    });
+                } else {
+                    $('#searchModal').modal("hide");
+                    createModalResponse("Please fill in the blanks");
+                }
                 createListenerBtnUpdate();
                 createListenerBtnDelete();
                 createListenerBtnAddDiagnostic();
