@@ -90,27 +90,15 @@ function PutOnUpdateModal(row) {
     var diagnosticdate = child.cells[2].innerText;
     $("#s_allergyType option[value=0]").html(child.cells[0].innerText);
     $('#s_allergyType > option[value="0"]').attr('value', child.cells[0].innerText);
-    //modal fields
-
-    var from1 = diagnosticdate.split("/");
-
-    var day = from1[0];
-    var month = from1[1];
-    var year = from1[2].split(" ");
-    var date;
-    if (parseInt(day) < 10 && parseInt(month) < 10) {
-        date = `${year[0]}-0${month}-0${day}`;
-    } else if (parseInt(day) < 10) {
-        date = `${year[0]}-${month}-0${day}`;
-    } else if (parseInt(month) < 10) {
-        date = `${year[0]}-0${month}-${day}`;
-    } else {
-        date = `${year[0]}-${month}-${day}`;
-    }
-    $('#it_diagnosticDate').val(date);
-    //
+    setCurrentDatetime1(diagnosticdate);
     var field_description = $('#ta_description');
     field_description.val(description);
+}
+
+function setCurrentDatetime1(dateString) {
+    dateString = dateString.replace(/\//g, '-');
+    const date = moment(dateString, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    $('#it_diagnosticDate').val(moment(new Date(date)).format('YYYY-MM-DD'));
 }
 
 function UpdatePatientAllergy() {

@@ -5,9 +5,9 @@
 }
 
 @model AllergyViewModel
- 
+
 <h1>Manage allergy</h1>
-<hr/>
+<hr />
 <form class="rounded form__register-vaccination" method="post">
     <div class="form-group mb-2">
         <input type="text" class="form-control" id="patientIdCard" aria-describedby="idCard" placeholder="Patient ID card" required>
@@ -113,5 +113,6 @@
 
 @section scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="~/js/Allergy/ManageAllergy.js"></script>
 }

@@ -91,43 +91,23 @@ function PutOnUpdateModal(row) {
     $('#s_vaccinationType > option[value="0"]').attr('value', child.cells[0].innerText);
     //modal fields
 
-    var from1 = lattestVaccinedate.split("/");
+    lattestVaccinedate = lattestVaccinedate.replace(/\//g, '-');
+    const date2 = moment(lattestVaccinedate, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    $('#it_applicationDate').val(moment(new Date(date2)).format('YYYY-MM-DD'));
 
-    var day = from1[0];
-    var month = from1[1];
-    var year = from1[2].split(" ");
-    var date;
-    if (parseInt(day) < 10 && parseInt(month) < 10) {
-        date = `${year[0]}-0${month}-0${day}`;
-    } else if (parseInt(day) < 10) {
-        date = `${year[0]}-${month}-0${day}`;
-    } else if (parseInt(month) < 10) {
-        date = `${year[0]}-0${month}-${day}`;
-    } else {
-        date = `${year[0]}-${month}-${day}`;
-    }
-    $('#it_applicationDate').val(date);
     //fecha2
+    nextVaccinedate = nextVaccinedate.replace(/\//g, '-');
+    const date1 = moment(nextVaccinedate, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    $('#it_nextApplicationDate').val(date1);
 
-    var from2 = nextVaccinedate.split("/");
-    var date2 = "";
-
-    var day2 = from2[0];
-    var month2 = from2[1];
-    var year2 = from2[2].split(" ");
-
-    if (parseInt(day2) < 10 && parseInt(month2) < 10) {
-        date2 = `${year2[0]}-0${month2}-0${day2}`;
-    } else if (parseInt(day2) < 10) {
-        date2 = `${year2[0]}-${month2}-0${day2}`;
-    } else if (parseInt(month2) < 10) {
-        date2 = `${year2[0]}-0${month2}-${day2}`;
-    } else {
-        date2 = `${year2[0]}-${month2}-${day2}`;
-    }
-    $('#it_nextApplicationDate').val(date2);
     var field_description = $('#ta_description');
     field_description.val(description);
+}
+
+function setCurrentDatetime2(dateString) {
+    dateString = dateString.replace(/\//g, '-');
+    const date = moment(dateString, 'DD-MM-YYYY').format('MM-DD-YYYY');
+    $('#it_diagnosticDate').val(moment(new Date(date)).format('YYYY-MM-DD'));
 }
 
 function UpdatePatientVaccine() {
